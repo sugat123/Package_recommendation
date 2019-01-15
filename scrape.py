@@ -1,1 +1,1 @@
-print ("Attempting to scrape packages")
+print ("Scrape using beautiful soup")
