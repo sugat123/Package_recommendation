@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+ {% block content %}
+
+     <ul style="margin-top: 5%; margin-left: 5%;">
+
+     {% for object in objects %}
+
+         <a href="{% url 'app:detail' object.id %}" style="margin: 10px;"><li>{{ object.name }}</li></a>
+
+     {% endfor %}
+     </ul>
+
+    {% endblock %}
