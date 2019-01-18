@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+import numpy as np
 
 
 # GET ALL URLS
@@ -11,9 +12,9 @@ def all_url(h2):
 	url = 'https://www.bookmundi.com'+a['href']
 	all_urls.append(url)
 	print('{} no of urls scrapped'.format(len(all_urls)))
-	
-	
-	
+
+
+
 
 def scrape(url):
 	source_code = requests.get(url)
@@ -23,57 +24,96 @@ def scrape(url):
 	for article in soup.find_all('div',{'class':'trips-block'}):
 		h2 = article.find('h2')
 		all_url(h2)
-		
+
 
 	stop = soup.find('li',{'class':'hidden'})
 	next = soup.find('li',{'class':'next'})
 	a = next.find('a')
 	next = a['href']
 	if stop == None:
-		scrape(next)
+	    scrape(next)
 	else:
-		return			
+		return
 	return
 
 
 def fill_data(url):
-	
+
 	source_code = requests.get(url)
 	html = source_code.text
 	soup = BeautifulSoup(html,'html.parser')
 
 	info_title_list = []
 	info_list = []
-	
+
+	# Obtain Price of the package as:
+	messy_price = soup.find('span',{'id':'fromPrice'}).text
+	price = re.sub(r"[,]*", "", messy_price)
+
+
+	# Obtain Rating of the package as:
+	cost = soup.find('span',{'class':'rat-count'})
+	f = lambda rate: rate.text if rate != None else np.nan
+	rating = str(f(cost))
+	rating = re.sub(r"[\n\t]*", "", rating)
+	tour = 'nan'
+	trek = 'nan'
+
+
+    # Obtain Name of the package as:
 	for article in soup.find_all('header',{'class':'heading'}):
 		h1 = article.find('h1')
-		heading = h1.text
-		info_title_list.append('Title')
-		info_list.append(heading)
+		name = h1.text
 
-	for article in soup.find_all('div',{'class':'row-holder'}):
-		info_title = article.find('strong',{'class':'info-title'})
-		info = article.find('span',{'class':'info'})
-			
-		if info_title != None:
-			infotitletext = (info_title.text)
-			infotext = (info.text)
+	# Obtain Duration as:
 
-			infotitle_t = re.sub(r"[\n\t]*", "", infotitletext)
-			infotext_t = re.sub(r"[\n\t]*", "", infotext)
-			
-			info_title_list.append(infotitle_t)
-			info_list.append(infotext_t)
-					
-			
+	for title in soup.find_all('span',{'class':'duration'}):
+	    durationclass = title.find('span', {'class':'info'})
+	    duration = re.sub(r"[\n\t]*", "", durationclass.text)
+	    print(duration)
+
+	# Obtain Tour-Type as:
+
+	for title in soup.find_all('span',{'class':'tour-type'}):
+	    tour = title.find('span', {'class':'info'})
+	    tour = re.sub(r"[\n\t]*", "", tour.text)
+	    print(tour)
+
+    # Obtain Trek-difficulty as:
+
+	for title in soup.find_all('span',{'class':'difficulty-icon'}):
+	    trek = title.find('span', {'class':'info'})
+	    trek = re.sub(r"[\n\t]*", "", trek.text)
+	    print(trek)
+
+
+
+
+
+
+	info_list.append(name)
+	info_list.append(price)
+	info_list.append(duration)
+	info_list.append(rating)
+	info_list.append(tour)
+	info_list.append(trek)
+
 	mapped = zip(info_title_list, info_list)
 	ls = list(mapped)
 
+	f = open('newdataset.csv','a+')
 
-	f = open('data.txt','a+')
+	f.write('Name of Package'+',,'+
+		'Price'+',,'+
+		'Duration'+',,'+
+		'Rating'+',,'+
+		'Tour Type'+',,'+
+		'Trek Difficulty'+',,'+
+		'\n'+'\n')
+
 	for i in range(0,len(info_list)):
-		f.write(info_list[i]+',')
-	f.write('\n')
+		f.write(info_list[i]+',,')
+	f.write('\n'+'\n')
 
 	'''
 def start_feeding(first,last):
@@ -81,18 +121,19 @@ def start_feeding(first,last):
         	sliced_urls = all_urls[first:last]
         	for url in all_urls:
         		fill_data(url)
-        		print('Url {} data fill complete !!'.format(i))				
+        		print('Url {} data fill complete !!'.format(i))
         		i = i+1
-                
+
 
 '''
 def start_feeding(first, last):
-    i = 1
+    i = first
     sliced_urls = all_urls[first: last]
     for url in sliced_urls:
         fill_data(url)
-        print('Url {} data fill complete !!'.format(i))				
-        i=i+1		
+        print('Url {} data fill complete !!'.format(i))
+        i=i+1
 
-#scrape('https://www.bookmundi.com/nepal?page=2')
+
+#scrape('https://www.bookmundi.com/nepal?page=22')
 #start_feeding(1,10)
