@@ -7,6 +7,7 @@ import numpy as np
 # GET ALL URLS
 all_urls = []
 
+
 def all_url(h2):
 	a = h2.find('a')
 	url = 'https://www.bookmundi.com'+a['href']
@@ -70,21 +71,21 @@ def fill_data(url):
 	for title in soup.find_all('span',{'class':'duration'}):
 	    durationclass = title.find('span', {'class':'info'})
 	    duration = re.sub(r"[\n\t]*", "", durationclass.text)
-	    print(duration)
+	    
 
 	# Obtain Tour-Type as:
 
 	for title in soup.find_all('span',{'class':'tour-type'}):
 	    tour = title.find('span', {'class':'info'})
 	    tour = re.sub(r"[\n\t]*", "", tour.text)
-	    print(tour)
+	    
 
     # Obtain Trek-difficulty as:
 
 	for title in soup.find_all('span',{'class':'difficulty-icon'}):
 	    trek = title.find('span', {'class':'info'})
 	    trek = re.sub(r"[\n\t]*", "", trek.text)
-	    print(trek)
+	    
 
 
 
@@ -98,18 +99,7 @@ def fill_data(url):
 	info_list.append(tour)
 	info_list.append(trek)
 
-	mapped = zip(info_title_list, info_list)
-	ls = list(mapped)
-
-	f = open('newdataset.csv','a+')
-
-	f.write('Name of Package'+',,'+
-		'Price'+',,'+
-		'Duration'+',,'+
-		'Rating'+',,'+
-		'Tour Type'+',,'+
-		'Trek Difficulty'+',,'+
-		'\n'+'\n')
+	f = open('datasets.csv','a+')
 
 	for i in range(0,len(info_list)):
 		f.write(info_list[i]+',,')
@@ -135,5 +125,16 @@ def start_feeding(first, last):
         i=i+1
 
 
+def main():
+    f = open("datasets.csv", "w")
+    f.write('Name of Package'+',,'+
+		'Price'+',,'+
+		'Duration'+',,'+
+		'Rating'+',,'+
+		'Tour Type'+',,'+
+		'Trek Difficulty'+',,'+
+		'\n'+'\n')
+    
+#main()
 #scrape('https://www.bookmundi.com/nepal?page=22')
-#start_feeding(1,10)
+#start_feeding(0,10)
