@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
-{% block body %}
-<div class="container" col-md-offset-4 >
+{% block content %}
+<div class="container" col-md-offset-4 style="margin-top: 5%">
 
 
   <div class="jumbotron">
-  <center>  <h1 class="display-4">Password Changed Successfully !!</h1></center>
-    <center><a class="btn btn-primary btn-lg" href="{% url 'app:index' %}" role="button">Login</a></center>
-
+    <h2 class="display-4 text-center">Password Changed Successfully !!</h2></center>
+    <div style="margin-top: 5%" class="text-center">
+    <a class="btn btn-primary btn-md" href="{% url 'app:index' %}" role="button">Login</a>
+        To Continue...</div>
   </div>
 </div>
 {% endblock %}

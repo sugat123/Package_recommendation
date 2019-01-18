@@ -1,5 +1,6 @@
-from django.conf.urls import url, include
-from .views import indexView, packageDetail, loginView, resetPassword,   activate, logoutView, forgotPasswordFormView
+from django.conf.urls import url
+from .views import indexView, packageDetail, loginView, resetPassword,\
+    activate, logoutView, forgotPasswordFormView
 
 
 app_name = 'app'

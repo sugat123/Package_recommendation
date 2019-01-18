@@ -15,17 +15,6 @@ class SignUpForm(UserCreationForm):
 
 
 
-    # def save(self, commit=True):
-    #     user = super(SignUpForm, self).save(commit=False)
-    #     first_name, last_name = self.cleaned_data["fullname"].split()
-    #     user.first_name = first_name
-    #     user.last_name = last_name
-    #     user.email = self.cleaned_data["email"]
-    #     if commit:
-    #         user.save()
-    #     return user
-
-
 class NewPassword(forms.Form):
     password1 = forms.CharField(max_length=100, widget=forms.PasswordInput(
         attrs={
@@ -41,7 +30,13 @@ class NewPassword(forms.Form):
     ))
 
 
-
+    def clean(self):
+        print("here in clean")
+        if self.cleaned_data['password1'] != self.cleaned_data['password2']:
+            print('raised rairased')
+            raise forms.ValidationError("Password do not match. Please re-type your password. !!")
+        else:
+            return self.cleaned_data
 
 
 class ForgotPasswordForm(forms.Form):

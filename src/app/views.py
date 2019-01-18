@@ -1,8 +1,8 @@
-from django.shortcuts import render, HttpResponse, redirect, reverse
+from django.shortcuts import render, HttpResponse, redirect
 from django.urls import reverse_lazy
 from django.views import View
 from .models import Package
-from django.views.generic import DetailView, FormView
+from django.views.generic import DetailView
 from .forms import SignUpForm, ForgotPasswordForm
 
 from django.contrib.sites.shortcuts import get_current_site
@@ -15,6 +15,12 @@ from django.contrib.auth import authenticate, login, logout
 
 from django.contrib.auth.models import User
 from .forms import NewPassword
+
+from django.contrib import messages
+from django.urls import resolve
+
+
+
 
 
 class indexView(View):
@@ -106,13 +112,9 @@ def activate(request, uidb64, token):
         user = None
 
     if user is not None and account_activation_token.check_token(user, token):
-        print('im in user is no notn not not no tno t')
         user.is_active = True
-        print('user not activated activated activate')
         user.save()
-        print('user save called ')
         login(request, user)
-        print('login i also complete !!')
         return render(request, 'index.html')
     else:
         return render(request, 'account_activation_invalid.html')
@@ -143,16 +145,17 @@ class resetPassword(View):
         if form.is_valid():
             uid = force_text(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
-            pass1 = form.cleaned_data['password1']
-            pass2 = form.cleaned_data['password2']
-            if pass1 != pass2:
-                return render(request, 'passwordnotmatch.html')
-            else:
-                print(user.id)
-                user.set_password(pass1)
-                user.save()
-                # return HttpResponse('complete password verification!!')
-                return render(request, 'success.html')
+
+            user.set_password(form.cleaned_data['password1'])
+            user.save()
+            return render(request, 'success.html')
+        else:
+            print(form.errors['__all__'])
+
+            messages.error(
+                self.request, 'Password do not match. Please try again')
+
+            return render(request, 'newpasswordcreate.html',{'form': NewPassword()})
 
 
 
@@ -161,7 +164,6 @@ class forgotPasswordFormView(View):
 
     def get(self, request, *args, **kwargs):
         form = ForgotPasswordForm()
-        print('12546')
         return render(request, self.template_name, {'form': form})
 
     def post(self, request, *args, **kwargs):
@@ -188,39 +190,5 @@ class forgotPasswordFormView(View):
             email.send()
         return render(request, 'sendmail.html')
 
-
-class resetpassword(View):
-
-    def get(self, request, uidb64, token):
-        form = NewPassword()
-        try:
-            uid = force_text(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(pk=uid)
-
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            user = None
-
-        if user is not None and account_activation_token.check_token(user, token):
-
-            return render(request, 'newpasswordcreate.html', {'form': form})
-        else:
-            return render(request, 'account_activation_invalid.html')
-
-    def post(self, request, uidb64, token):
-
-        form = NewPassword(request.POST)
-        if form.is_valid():
-            uid = force_text(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(pk=uid)
-            pass1 = form.cleaned_data['password1']
-            pass2 = form.cleaned_data['password2']
-            if pass1 != pass2:
-                return render(request, 'passwordnotmatch.html')
-            else:
-                print(user.id)
-                user.set_password(pass1)
-                user.save()
-                # return HttpResponse('complete password verification!!')
-                return render(request, 'success.html')
 
 
