@@ -6,14 +6,6 @@ import numpy as np
 
 # GET ALL URLS
 all_urls = []
-f = open('newdataset.csv','a+')
-f.write('Name of Package'+',,'+
-        'Price'+',,'+
-        'Duration'+',,'+
-        'Rating'+',,'+
-        'Tour Type'+',,'+
-        'Trek Difficulty'+',,'+
-        '\n'+'\n')
 
 def all_url(h2):
 	a = h2.find('a')
@@ -110,6 +102,15 @@ def fill_data(url):
 	ls = list(mapped)
 
 	f = open('newdataset.csv','a+')
+
+	f.write('Name of Package'+',,'+
+		'Price'+',,'+
+		'Duration'+',,'+
+		'Rating'+',,'+
+		'Tour Type'+',,'+
+		'Trek Difficulty'+',,'+
+		'\n'+'\n')
+
 	for i in range(0,len(info_list)):
 		f.write(info_list[i]+',,')
 	f.write('\n'+'\n')
