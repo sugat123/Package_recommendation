@@ -46,10 +46,13 @@ def fill_data(url):
 
 	info_title_list = []
 	info_list = []
+	itemprops = []
+	otherinfo = []
 
 	# Obtain Price of the package as:
 	messy_price = soup.find('span',{'id':'fromPrice'}).text
 	price = re.sub(r"[,]*", "", messy_price)
+	price = str(int(price)*110)
 
 
 	# Obtain Rating of the package as:
@@ -64,7 +67,7 @@ def fill_data(url):
     # Obtain Name of the package as:
 	for article in soup.find_all('header',{'class':'heading'}):
 		h1 = article.find('h1')
-		name = h1.text
+		name = re.sub(r"[,]*", "", h1.text).strip()
 
 	# Obtain Duration as:
 
@@ -85,6 +88,22 @@ def fill_data(url):
 	for title in soup.find_all('span',{'class':'difficulty-icon'}):
 	    trek = title.find('span', {'class':'info'})
 	    trek = re.sub(r"[\n\t]*", "", trek.text)
+        
+    # Obtain Location and primary activity of the package as:
+	
+	for item in soup.find_all('span',{'itemprop':'title'}):
+		itemprops.append(item.text)
+	
+	location = re.sub(r"[,]*", "", itemprops[3]).strip()
+	primary_activity = re.sub(r"[,]*", "", itemprops[4]).strip()
+    
+	# Obtain Operation and secondary activity of the package as:
+	for article in soup.find_all('span',{'class':'product-title'}):
+		for info in article.find_all('a'):
+			otherinfo.append(info.text)
+    
+	operator = re.sub(r"[,]*", "", otherinfo[0]).strip()
+	secondary_activity = re.sub(r"[,]*", "", otherinfo[1]).strip()
 	
 	info_list.append(name)
 	info_list.append(price)
@@ -92,12 +111,16 @@ def fill_data(url):
 	info_list.append(rating)
 	info_list.append(tour)
 	info_list.append(trek)
+	info_list.append(operator)
+	info_list.append(location)
+	info_list.append(primary_activity)
+	info_list.append(secondary_activity)
 
-	f = open('datasets.csv','a+')
+	f = open('finaldatasets.csv','a+')
 
 	for i in range(0,len(info_list)):
-		f.write(info_list[i]+',,')
-	f.write('\n'+'\n')
+		f.write(info_list[i]+' ,, ')
+	f.write('\n')
 
 
 
@@ -112,14 +135,18 @@ def start_feeding(first, last):
 
 
 def main():
-    f = open("datasets.csv", "w")
-    f.write('Name of Package'+',,'+
-		'Price'+',,'+
-		'Duration'+',,'+
-		'Rating'+',,'+
-		'Tour Type'+',,'+
-		'Trek Difficulty'+',,'+
-		'\n'+'\n')
+    f = open("finaldatasets.csv", "w")
+    f.write('Name of Package'+' ,, '+
+		'Price'+' ,, '+
+		'Duration'+' ,, '+
+		'Rating'+' ,, '+
+		'Tour Type'+' ,, '+
+		'Trek Difficulty'+' ,, '+
+		'Operator'+' ,, '+
+		'Location'+' ,, '+
+		'Primary Activity'+' ,, '+
+		'Secondary Activity'+' ,, '+
+		'\n')
     
 #main()
 #scrape('https://www.bookmundi.com/nepal?page=22')
