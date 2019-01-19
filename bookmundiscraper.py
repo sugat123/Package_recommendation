@@ -85,13 +85,7 @@ def fill_data(url):
 	for title in soup.find_all('span',{'class':'difficulty-icon'}):
 	    trek = title.find('span', {'class':'info'})
 	    trek = re.sub(r"[\n\t]*", "", trek.text)
-	    
-
-
-
-
-
-
+	
 	info_list.append(name)
 	info_list.append(price)
 	info_list.append(duration)
@@ -105,17 +99,9 @@ def fill_data(url):
 		f.write(info_list[i]+',,')
 	f.write('\n'+'\n')
 
-	'''
-def start_feeding(first,last):
-        i=1
-        	sliced_urls = all_urls[first:last]
-        	for url in all_urls:
-        		fill_data(url)
-        		print('Url {} data fill complete !!'.format(i))
-        		i = i+1
 
 
-'''
+
 def start_feeding(first, last):
     i = first
     sliced_urls = all_urls[first: last]
