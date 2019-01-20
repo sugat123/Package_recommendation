@@ -16,21 +16,23 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .forms import NewPassword
 
+from django.views.generic import ListView
+
 from django.contrib import messages
 from django.urls import resolve
+import os
 
 
 
 
 
-class indexView(View):
+class indexView(ListView):
 
+    model = Package
+    template_name = 'index.html'
+    print('in index view right now !!')
+    paginate_by = 20
 
-    def get(self, request):
-        context = Package.objects.all()
-        template_name = 'index.html'
-        print('in index view right now !!')
-        return render(request, template_name, {'objects': context})
 
 
     def post(self, request):
@@ -90,8 +92,6 @@ class loginView(View):
         return redirect(self.success_url)
 
 
-
-
 class logoutView(View):
     success_url = reverse_lazy('app:index')
 
@@ -142,6 +142,7 @@ class resetPassword(View):
 
     def post(self, request, uidb64, token):
         form = NewPassword(request.POST)
+
         if form.is_valid():
             uid = force_text(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
@@ -149,12 +150,12 @@ class resetPassword(View):
             user.set_password(form.cleaned_data['password1'])
             user.save()
             return render(request, 'success.html')
+
         else:
             print(form.errors['__all__'])
 
             messages.error(
                 self.request, 'Password do not match. Please try again')
-
             return render(request, 'newpasswordcreate.html',{'form': NewPassword()})
 
 
