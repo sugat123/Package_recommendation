@@ -4,8 +4,8 @@
 
         <div class="row" style="margin: 10%; margin-top: 2%; margin-bottom: 2%">
             {% for object in object_list %}
-            <div class="column" style="width: 20%; margin: 2%;">
-                <h3>{{ object.name }}</h3><br>
+                <div class="column" style="width: 20%; margin: 2%;">
+                <a href="{% url 'app:detail' object.id %}"><h3>{{ object.name }}</h3></a><br>
                 Price: Rs. {{ object.price }}<br>
                 Duration: {{ object.duration }}<br>
             </div>
