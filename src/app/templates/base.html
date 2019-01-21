@@ -10,16 +10,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+      {% block title %}
 
-    <title>Title</title>
-
+    {% endblock %}
     <!-- Bootstrap core CSS -->
     <link href=" {% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-      <link type="text/css" rel="stylesheet" href="{% static 'gaurishankar_app/css/theme-default/bootstrap.css' %}" />
+
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
             integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
       <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static  'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
   </head>
 
@@ -40,20 +45,8 @@
                       <button class="btn btn-primary" type="submit">Search</button>
 
               </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{% url 'app:index' %}">Home
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Services</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact</a>
-            </li>
+           
+
             {% if not user.is_authenticated %} <li class="nav-item">
               <a class="nav-link" data-toggle="modal" data-target="#loginModal"><strong>Login</strong></a>
             </li>
@@ -180,8 +173,7 @@
 
     {% endblock %}
     <!-- Bootstrap core JavaScript -->
-    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static  'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    >
 
   </body>
 

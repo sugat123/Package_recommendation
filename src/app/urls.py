@@ -18,6 +18,3 @@ urlpatterns = [
         name='activate'),
 
 ]
-# from django.urls import path, include, re_path
-# from .views import indexView, packageDetail, login, resetPassword, signup, test, activate
-#

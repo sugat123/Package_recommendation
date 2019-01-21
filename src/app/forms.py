@@ -42,3 +42,10 @@ class NewPassword(forms.Form):
 class ForgotPasswordForm(forms.Form):
     username = forms.CharField(max_length = 100)
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+
+
+
+class FilterForm(forms.Form):
+    name = forms.CharField(max_length=50)
+    duration = forms.CharField(max_length=50)
+    location = forms.CharField(max_length=50)
