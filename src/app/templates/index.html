@@ -9,123 +9,154 @@
 {% block content %}
 
 
+{% if messages %}
 
-    <div class="container" style="margin-top: 3%">
+    {% for message in messages %}
 
+        {{ message }}
 
-                <div class="searchby">
+    {% endfor %}
 
-                    <form  action="{% url 'app:index' %}" method="get">
+    {% endif %}
 
-                        <h3 class="name">Search By Name&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i class="fa fa-caret-down"></i></h3>
+    <div class="row" style="margin: 10%; margin-top: 2%; margin-bottom: 2%; background-color: #1A1A1D;">
+
+        <div class="col-lg-4" style="margin-left:0; ">
+
+            <div class="jumbotron" style="background-color: #4E4E50; margin-top: 10%;">
+                <h1 class="display-4">Hello, world!</h1>
+                <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra
+                    attention to featured content or information.</p>
+                <hr class="my-4">
+                <p>It uses utility classes for typography and spacing to space content out within the larger
+                    container.</p>
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                </p>
+            </div>
+
+            <div class="searchby" style="margin-left: 4%; margin-top: 4%; color: #34ce57">
+
+                <form action="{% url 'app:index' %}" method="get">
+                    <h5 class="name">Search By Name&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i class="fa fa-caret-down"></i>
+                    </h5>
                     <div class="searchbyname">
-                    <input id="name_search"  type="text"
-                    name="name_search" value="{{ request.GET.name }}"
-                    class="form-control" />
+                        <input id="name_search" type="text"
+                               name="name_search" value="{{ request.GET.name }}"
+                               class="form-control"/>
 
                     </div>
-
-                        <h3 class="duration" style="margin-top: 5%";>Search By Duration&nbsp&nbsp<i class="fa fa-caret-down"></i></h3>
+                    <h5 class="duration" style="margin-top: 15%" ;>Search By Duration&nbsp&nbsp<i
+                            class="fa fa-caret-down"></i></h5>
                     <div class="searchbyduration">
 
-                    <input id="duration_search"  type="text"
-                    name="duration_search" value="{{ request.GET.duration }}"
-                    class="form-control" />
+                        <input id="duration_search" type="text"
+                               name="duration_search" value="{{ request.GET.duration }}"
+                               class="form-control"/>
                     </div>
+                    <h5 class="location" style="margin-top: 15%">Search By Location&nbsp&nbsp<i
+                            class="fa fa-caret-down"></i>
+                    </h5>
+                    <div class="searchbylocation">
 
-                    <h3 class="location" style="margin-top: 5%">Search By Location&nbsp&nbsp<i class="fa fa-caret-down"></i></h3>
-                        <div class="searchbylocation">
+                        <input id="location_search" type="text"
+                               name="location_search" value="{{ request.GET.location }}"
+                               class="form-control"/></div>
 
-                    <input id="location_search"  type="text"
-                    name="location_search" value="{{ request.GET.location }}"
-                    class="form-control" /></div>
+                    <h5 class="price" style="margin-top: 15%" ;>Search by
+                        Price&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i
+                                class="fa fa-caret-down"></i></h5>
+                    <div class="searchbyprice">
+                        <label for="minprice_search">Min Price:</label>
+                        <input id="minprice_search" type="text"
+                               name="minprice_search" value="{{ request.GET.price }}"
+                               class="form-control"/>
 
-                        <h3 class="price" style="margin-top: 5%";>Search by Price&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i class="fa fa-caret-down"></i></h3>
-                        <div class="searchbyprice">
-                    <label for="minprice_search">Min Price:</label>
-                    <input id="minprice_search"  type="text"
-                    name="minprice_search" value="{{ request.GET.price }}"
-                    class="form-control" />
-
-                    <label for="maxprice_search">Max Price:</label>
-                    <input id="maxprice_search"  type="text"
-                    name="maxprice_search" value="{{ request.GET.price }}"
-                    class="form-control" /><br></div>
+                        <label for="maxprice_search">Max Price:</label>
+                        <input id="maxprice_search" type="text"
+                               name="maxprice_search" value="{{ request.GET.price }}"
+                               class="form-control"/><br></div>
 
                     <input type="submit"
-                    value="Search" class="btn btn-success" style="margin-top: 3%" />
+                           value="Search" class="btn btn-success" style="margin-top: 3%"/>
                 </form>
 
-                </div>
-
-
-
-        <div class="row" style="margin: 10%; margin-top: 2%; margin-bottom: 2%">
-            {% for object in object_list %}
-                <div class="column" style="width: 20%; margin: 2%;">
-                    <a href="{% url 'app:detail' object.id %}"><h3>{{ object.name }}</h3></a><br>
-
-                    Duration: {{ object.duration }}<br>
-                    Location: {{ object.location }}<br>
-                    Price: Rs. {{ object.price }}<br>
-                </div>
-            {% endfor %}
+            </div>
         </div>
 
+        <div class="col-lg-8">
 
-
-
-        {% if is_paginated %}
-
-            <ul class="pagination" style="margin-left: 25%; margin-right: 25%; ">
-
-                {% if page_obj.has_previous %}
-                    <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link"><i
-                            class="fa fa-chevron-left"
-                            aria-hidden="true"></i>Previous</a></li>
-                {% else %}
-                    <li class="disabled"><span><i class="fa fa-chevron-left" aria-hidden="true"></i></span></li>
-                {% endif %}
-
-                {% if page_obj.number|add:'-4' > 1 %}
-                    <li class="page-item"><a href="?page={{ page_obj.number|add:'-5' }}" class="page-link">&hellip;</a>
-                    </li>
-                {% endif %}
-
-                {% for i in page_obj.paginator.page_range %}
-
-                    {% if page_obj.number == i %}
-                        <li class="active" class="page-item"><a style="color:black;" href="?page={{ i }}"
-                                                                class="page-link"><span>{{ i }} <span
-                                class="sr-only">(current)</span></span></a></li>
-                    {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
-                        <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
-                    {% endif %}
+            <div class="row" style="color: #C3073F">
+                {% for object in object_list %}
+                <div class="col-sm-4">
+                <div class="package" style="padding: 20px; margin: 20px;">
+                    <a href="{% url 'app:detail' object.id %}"><h5>{{ object.name|truncatechars:30}}</h5></a>
+                    Duration: {{ object.duration }}<br>
+                    Price: Rs. {{ object.price }}
+                </div>
+                    </div>
                 {% endfor %}
+            </div>
 
-                {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
-                    <li class="page-item"><a href="?page={{ page_obj.number|add:'5' }}" class="page-link">&hellip;</a>
-                    </li>
+
+        </div>
+
+    </div>
+
+
+
+    {% if is_paginated %}
+
+        <ul class="pagination" style="margin-left: 25%; margin-right: 25%; ">
+
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link"><i
+                        class="fa fa-chevron-left"
+                        aria-hidden="true"></i>Previous</a></li>
+            {% else %}
+                <li class="disabled"><span><i class="fa fa-chevron-left" aria-hidden="true"></i></span></li>
+            {% endif %}
+
+            {% if page_obj.number|add:'-4' > 1 %}
+                <li class="page-item"><a href="?page={{ page_obj.number|add:'-5' }}" class="page-link">&hellip;</a>
+                </li>
+            {% endif %}
+
+            {% for i in page_obj.paginator.page_range %}
+
+                {% if page_obj.number == i %}
+                    <li class="active" class="page-item"><a style="color:black;" href="?page={{ i }}"
+                                                            class="page-link"><span>{{ i }} <span
+                            class="sr-only">(current)</span></span></a></li>
+                {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+                    <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
                 {% endif %}
+            {% endfor %}
 
-                {% if page_obj.has_next %}
-                    <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link"><i
-                            class="fa fa-chevron-right"
-                            aria-hidden="true"></i>Next</a></li>
-                {% else %}
-                    <li class="disabled"><span><i class="fa fa-chevron-right" aria-hidden="true"></i></span></li>
-                {% endif %}
-            </ul>
+            {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+                <li class="page-item"><a href="?page={{ page_obj.number|add:'5' }}" class="page-link">&hellip;</a>
+                </li>
+            {% endif %}
 
-        {% endif %}
+            {% if page_obj.has_next %}
+                <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link"><i
+                        class="fa fa-chevron-right"
+                        aria-hidden="true"></i>Next</a></li>
+            {% else %}
+                <li class="disabled"><span><i class="fa fa-chevron-right" aria-hidden="true"></i></span></li>
+            {% endif %}
+        </ul>
+
+    {% endif %}
 
 
     </div>
 
+
+
+
+
     </body>
-
-
-
 
     <script src="{% static 'js/custom.js' %}"></script>
 
