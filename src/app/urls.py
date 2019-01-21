@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from .views import indexView, packageDetail, loginView, resetPassword,\
     activate, logoutView, forgotPasswordFormView
+from history.views import HistoryView, DeleteHistory
 
 
 app_name = 'app'
@@ -16,5 +17,7 @@ urlpatterns = [
         resetPassword.as_view(), name='reset_password'),
     url('activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', activate,
         name='activate'),
+    url('history/', HistoryView.as_view(), name= 'history'),
+    url(r'^(?P<pk>\d+)/delete/$', DeleteHistory.as_view(), name= 'deletehistory'),
 
 ]

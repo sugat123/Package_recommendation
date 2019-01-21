@@ -4,74 +4,83 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-      {% block title %}
+    {% block title %}
 
     {% endblock %}
     <!-- Bootstrap core CSS -->
     <link href=" {% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-            integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
 
-      <link rel="stylesheet" href="{% static 'css/style.css' %}">
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
-  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static  'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
-  </head>
+</head>
 
-  <body style="margin: 0; padding: 0;">
+<body style="margin: 0; padding: 0;">
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-      <div class="container">
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+    <div class="container">
         <a class="navbar-brand" href="{% url 'app:index' %}">Recommendation</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
         </button>
+
+
         <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-              <li class="nav-item " style="margin-right: 50px; margin-top: 4px;">
+            <li><a href="#about">About</a></li>
+            <li><a href="{% url 'app:history' %}">History</a></li>
 
-                  <input type="text" placeholder="Search..">
-                      <button class="btn btn-primary" type="submit">Search</button>
+            <ul class="navbar-nav ml-auto">
 
-              </li>
-           
 
-            {% if not user.is_authenticated %} <li class="nav-item">
-              <a class="nav-link" data-toggle="modal" data-target="#loginModal"><strong>Login</strong></a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" data-toggle="modal" data-target="#registerModal"><strong>Register</strong></a>
-            </li>
-          {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="" >Welcome !! {{ user.username }} </a>
-                        </li>
+                <li class="nav-item " style="margin-right: 50px; margin-top: 4px;">
 
-                <li class="nav-item">
-                            <a class="nav-link" href="{% url 'app:logout' %}" >Logout</a>
-                        </li>
-            {% endif %}
-          </ul>
+                    <input type="text" placeholder="Search..">
+                    <button class="btn btn-primary" type="submit">Search</button>
+
+                </li>
+
+                {% if not user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="modal" data-target="#loginModal"><strong>Login</strong></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="modal"
+                           data-target="#registerModal"><strong>Register</strong></a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="">Welcome !! {{ user.username }} </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'app:logout' %}">Logout</a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
-      </div>
-    </nav>
+    </div>
+</nav>
 
-    <!-- Page Content -->
+<!-- Page Content -->
 
-                    {% if login_error %}
-                         <div class="alert alert-danger">{{ login_error }}</div>
-                    {% endif %}
+{% if login_error %}
+    <div class="alert alert-danger">{{ login_error }}</div>
+{% endif %}
 
 
 <div class="modal fade" id="loginModal">
@@ -88,25 +97,26 @@
 
             <form method="post" action="{% url 'app:login' %}">
                 {% csrf_token %}
-              <div class="modal-body">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Username:</label>
+                        <input type="text" class="form-control" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                    <button class="btn btn-primary btn-block">Login</button>
+                    <br>
 
-
-                  <div class="form-group">
-                      <label >Username:</label>
-                      <input type="text" class="form-control" name="username">
-                  </div>
-                  <div class="form-group">
-                      <label >Password:</label>
-                      <input type="password" class="form-control" name="password">
-                  </div>
-                  <button class="btn btn-primary btn-block">Login</button><br>
-
-              </div>
+                </div>
             </form>
-                  <div class="col-md-offset-1 col-md-12">
-                    <a href="{% url 'app:pwd_reset' %}"><button class="btn btn-warning btn-block">Forgot Password</button></a>
-                        <br><br>
-                  </div>
+            <div class="col-md-offset-1 col-md-12">
+                <a href="{% url 'app:pwd_reset' %}">
+                    <button class="btn btn-warning btn-block">Forgot Password</button>
+                </a>
+                <br><br>
+            </div>
 
 
         </div>
@@ -128,38 +138,36 @@
             <!-- Modal body -->
             <form method="post" action=".">
                 {% csrf_token %}
-            <div class="modal-body">
-                <div class="form-group">
-                    <label>Email:</label>
-                    <input type="text" class="form-control" name="email">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="text" class="form-control" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label>First Name:</label>
+                        <input type="text" class="form-control" name="first_name">
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name:</label>
+                        <input type="text" class="form-control" name="last_name">
+                    </div>
+                    <div class="form-group">
+                        <label>Username:</label>
+                        <input type="text" class="form-control" name="username">
+                    </div>
+                    <div class="form-group">
+                        <label>Password:</label>
+                        <input type="password" class="form-control" name="password1">
+                    </div>
+                    <div class="form-group">
+                        <label>Re-enter your Password</label>
+                        <input type="password" class="form-control" name="password2">
+                    </div>
+                    <button class="btn btn-success btn-block">Register</button>
                 </div>
-                <div class="form-group">
-                    <label >First Name:</label>
-                    <input type="text" class="form-control" name="first_name">
-                </div>
-                 <div class="form-group">
-                    <label >Last Name:</label>
-                    <input type="text" class="form-control" name="last_name">
-                </div>
-                 <div class="form-group">
-                    <label >Username:</label>
-                    <input type="text" class="form-control" name="username">
-                </div>
-                <div class="form-group">
-                    <label >Password:</label>
-                    <input type="password" class="form-control" name="password1">
-                </div>
-                <div class="form-group">
-                    <label >Re-enter your Password</label>
-                    <input type="password" class="form-control" name="password2">
-                </div>
-                <button class="btn btn-success btn-block">Register</button>
-            </div>
-                </form>
+            </form>
 
             <!--End of Register modal-->
-
-
 
         </div>
     </div>
@@ -169,12 +177,11 @@
 
 
 
-    {% block content %}
+{% block content %}
 
-    {% endblock %}
-    <!-- Bootstrap core JavaScript -->
-    >
+{% endblock %}
+<!-- Bootstrap core JavaScript -->
 
-  </body>
+</body>
 
 </html>

@@ -17,17 +17,18 @@ from django.contrib.auth.models import User
 from .forms import NewPassword, FilterForm
 
 from django.views.generic import ListView
-
 from django.contrib import messages
 
 from django.db.models import Q
+
+from history.mixins import ObjectViewMixin
 
 class indexView(ListView):
 
     model = Package
     template_name = 'index.html'
     print('in index view right now !!')
-    paginate_by = 20
+    paginate_by = 12
 
 
     def get_queryset(self):
@@ -169,7 +170,7 @@ class indexView(ListView):
 
 
 
-class packageDetail(DetailView):
+class packageDetail(ObjectViewMixin, DetailView):
     model = Package
     template_name = 'detail.html'
 
@@ -194,7 +195,7 @@ class loginView(View):
             return redirect(self.success_url)
         else:
             request.session['login_error'] = 'Username and password doesn\'t match'
-        return redirect(self.success_url)
+        return render(request, 'index.html')
 
 
 class logoutView(View):
