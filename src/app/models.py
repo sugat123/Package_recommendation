@@ -4,7 +4,7 @@ from django.db import models
 class Package(models.Model):
 
     name = models.CharField(max_length= 100)
-    price = models.CharField(max_length=100)
+    price = models.IntegerField()
     duration = models.CharField(max_length = 100)
     rating = models.CharField(max_length=100)
     tourtype = models.CharField(max_length=100)

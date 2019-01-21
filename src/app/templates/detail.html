@@ -1,13 +1,39 @@
 {% extends 'base.html' %}
 
+{% block title %}
+<title>Detail</title>
+{% endblock %}
+
 {% block content %}
 
-Duration: {{ object.duration }}<br><br>
+
+    <div class="row">
+        <div class="card" style="margin-left:5%; margin-top: 5%; padding: 3%;">
+            Name of Package: {{ object.name }}
 Price: {{ object.price }}<br><br>
-Destination: {{ object.destination }}<br><br>
-Activity: {{ object.activity }}<br><br>
-Cost Included: {{ object.cost_included }}<br><br>
-Cost Excluded: {{ object.cost_excluded }}<br><br>
-Cost Season: {{ object.season }}<br><br>
+Duration: {{ object.duration }}<br><br>
+Duration: {{ object.rating}}<br><br>
+Tour Type: {{ object.tourtype }}<br><br>
+Trek Difficulty: {{ object.trekdifficulty }}<br><br>
+Operator: {{ object.operator }}<br><br>
+Location: {{ object.location }}<br><br>
+Primary Activity: {{ object.primary_activity }}<br><br>
+Secondary Activity: {{ object.secondary_activty }}<br><br>
+
+        </div>
+    <div class="card" style=" margin-top: 5%; margin-left: 8%; padding: 3%; margin-right: 5%;">
+            Name of Package: {{ object.name }}
+Price: {{ object.price }}<br><br>
+Duration: {{ object.duration }}<br><br>
+Duration: {{ object.rating}}<br><br>
+Tour Type: {{ object.tourtype }}<br><br>
+Trek Difficulty: {{ object.trekdifficulty }}<br><br>
+Operator: {{ object.operator }}<br><br>
+Location: {{ object.location }}<br><br>
+Primary Activity: {{ object.primary_activity }}<br><br>
+Secondary Activity: {{ object.secondary_activty }}<br><br>
+
+        </div>
+    </div>
 
 {% endblock %}

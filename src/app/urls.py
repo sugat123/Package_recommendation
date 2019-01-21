@@ -6,8 +6,7 @@ from .views import indexView, packageDetail, loginView, resetPassword,\
 app_name = 'app'
 urlpatterns = [
     url(r'^$', indexView.as_view(), name= 'index'),
-    #url(r'^(?P<pk>\d+)/$', packageDetail.as_view(), name= 'detail'),
-
+    url(r'^(?P<pk>\d+)/$', packageDetail.as_view(), name= 'detail'),
 
     url('login', loginView.as_view(), name = 'login'),
     url(r'^logout/$', logoutView.as_view(), name='logout'),
@@ -19,6 +18,3 @@ urlpatterns = [
         name='activate'),
 
 ]
-# from django.urls import path, include, re_path
-# from .views import indexView, packageDetail, login, resetPassword, signup, test, activate
-#
