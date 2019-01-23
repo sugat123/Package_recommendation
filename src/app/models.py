@@ -1,4 +1,7 @@
 from django.db import models
+from django.contrib.auth.models import User
+from django.shortcuts import reverse
+
 
 # Create your models here.
 class Package(models.Model):
@@ -14,6 +17,7 @@ class Package(models.Model):
     primary_activity = models.CharField(max_length=100)
     secondary_activty = models.CharField(max_length=100)
 
+    like = models.ManyToManyField(User, blank=True)
 
     cost_included = models.TextField(blank=True,null=True)
     cost_excluded = models.TextField(blank=True,null=True)
@@ -22,6 +26,11 @@ class Package(models.Model):
     def __str__(self):
         return self.name
 
+    def like_count(self):
+        return self.like.count()
+
+    def get_absoulte_url(self):
+        return reverse('app:detail', kwargs={'pk': self.pk})
 
 
 

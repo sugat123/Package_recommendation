@@ -9,99 +9,112 @@
 {% block content %}
 
 
-{% if messages %}
 
-    {% for message in messages %}
 
-        {{ message }}
+    <div class="container">
+        <div class="row" style="margin-top: 2%; margin-bottom: 2%; background-color: #34ce57">
 
-    {% endfor %}
+            <div class="col-lg-4" style="margin-left:0; ">
+                <div class="jumbotron" style="background-color: #9BBDF9; margin-top: 10%;">
+                    <h1 class="display-4">Hello, world!</h1>
+                    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra
+                        attention to featured content or information.</p>
+                    <hr class="my-4">
+                    <p>It uses utility classes for typography and spacing to space content out within the larger
+                        container.</p>
+                    <p class="lead">
+                        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                    </p>
+                </div>
 
-    {% endif %}
 
-    <div class="row" style="margin: 10%; margin-top: 2%; margin-bottom: 2%; background-color: #1A1A1D;">
-
-        <div class="col-lg-4" style="margin-left:0; ">
-
-            <div class="jumbotron" style="background-color: #4E4E50; margin-top: 10%;">
-                <h1 class="display-4">Hello, world!</h1>
-                <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra
-                    attention to featured content or information.</p>
-                <hr class="my-4">
-                <p>It uses utility classes for typography and spacing to space content out within the larger
-                    container.</p>
-                <p class="lead">
-                    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
-                </p>
             </div>
 
-            <div class="searchby" style="margin-left: 4%; margin-top: 4%; color: #34ce57">
+            <div class="col-lg-8">
+                <div class="title text-center text-info">
+                    <h2 style="color: black; margin-top: 5%;">List Of Packages</h2>
+                </div>
+                <div class="row" style="color: black; margin:0; padding:0; ">
+                    {% for object in object_list %}
+                        <div class="col-sm-4" style="margin: 0; padding: 0;">
+                            <div class="package" style="margin: 9%; height: 100%;
+                width: 100%;">
+                                <a href="{% url 'app:detail' object.id %}"><h5>{{ object.name|truncatechars:30 }}</h5>
+                                </a>
+                                Duration: {{ object.duration }}<br>
+                                Price: Rs. {{ object.price }}<br>
+                                Total likes: {{ object.like_count }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
 
-                <form action="{% url 'app:index' %}" method="get">
-                    <h5 class="name">Search By Name&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i class="fa fa-caret-down"></i>
-                    </h5>
-                    <div class="searchbyname">
-                        <input id="name_search" type="text"
-                               name="name_search" value="{{ request.GET.name }}"
-                               class="form-control"/>
 
-                    </div>
-                    <h5 class="duration" style="margin-top: 15%" ;>Search By Duration&nbsp&nbsp<i
-                            class="fa fa-caret-down"></i></h5>
+        <div class="row" style="background-color: greenyellow;">
+
+
+            <div class="badge" style="font-size: large">Search By:</div>
+            <form class="form-inline" action="{% url 'app:index' %}" method="get">
+                <label class="name" for="name_search" style="margin-right: 20px; margin-left: 20px;">Name:
+                    &nbsp;</label>
+                <div class="searchbyname">
+                    <input id="name_search" type="text"
+                           name="name_search" value="{{ request.GET.name }}"
+                           class="form-control"/>
+                </div>
+
+
+                <label class="duration" for="duration_search" style="margin-right: 20px; margin-left: 20px;">Duration:
+                    &nbsp;</label>
+                <div class="input-group mb-2 mr-sm-2">
                     <div class="searchbyduration">
-
                         <input id="duration_search" type="text"
                                name="duration_search" value="{{ request.GET.duration }}"
                                class="form-control"/>
                     </div>
-                    <h5 class="location" style="margin-top: 15%">Search By Location&nbsp&nbsp<i
-                            class="fa fa-caret-down"></i>
-                    </h5>
-                    <div class="searchbylocation">
+                </div>
 
+
+                <label class="location" for="location_search" style="margin-right: 20px; margin-left: 20px;">Location:
+                    &nbsp;</label>
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="searchbylocation">
                         <input id="location_search" type="text"
                                name="location_search" value="{{ request.GET.location }}"
                                class="form-control"/></div>
-
-                    <h5 class="price" style="margin-top: 15%" ;>Search by
-                        Price&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i
-                                class="fa fa-caret-down"></i></h5>
-                    <div class="searchbyprice">
-                        <label for="minprice_search">Min Price:</label>
-                        <input id="minprice_search" type="text"
-                               name="minprice_search" value="{{ request.GET.price }}"
-                               class="form-control"/>
-
-                        <label for="maxprice_search">Max Price:</label>
-                        <input id="maxprice_search" type="text"
-                               name="maxprice_search" value="{{ request.GET.price }}"
-                               class="form-control"/><br></div>
-
-                    <input type="submit"
-                           value="Search" class="btn btn-success" style="margin-top: 3%"/>
-                </form>
-
-            </div>
-        </div>
-
-        <div class="col-lg-8">
-
-            <div class="row" style="color: #C3073F">
-                {% for object in object_list %}
-                <div class="col-sm-4">
-                <div class="package" style="padding: 20px; margin: 20px;">
-                    <a href="{% url 'app:detail' object.id %}"><h5>{{ object.name|truncatechars:30}}</h5></a>
-                    Duration: {{ object.duration }}<br>
-                    Price: Rs. {{ object.price }}
                 </div>
-                    </div>
-                {% endfor %}
-            </div>
 
 
+                <label class="price" style="margin-right: 20px; margin-left: 20px;">Price: &nbsp;</label>
+                <div class="searchbyprice">
+                    <label for="minprice_search">Min Price:</label>
+                    <input id="minprice_search" type="text"
+                           name="minprice_search" value="{{ request.GET.price }}"
+                           class="form-control"/>
+
+                    <label for="maxprice_search">Max Price:</label>
+                    <input id="maxprice_search" type="text"
+                           name="maxprice_search" value="{{ request.GET.price }}"
+                           class="form-control"/><br></div>
+
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </form>
         </div>
+    </div>
+    </div>
+    </div>
+
+
+
+    </form>
+
 
     </div>
+
+    </div>
+
 
 
 

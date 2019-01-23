@@ -28,7 +28,7 @@
 
 </head>
 
-<body style="margin: 0; padding: 0;">
+<body style="margin: 0; padding: 0; height: 100%; width: 100%; ">
 
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -42,7 +42,7 @@
 
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <li><a href="#about">About</a></li>
-            <li><a href="{% url 'app:history' %}">History</a></li>
+           {% if user.is_authenticated %} <li><a href="{% url 'app:history' %}">History</a></li> {% endif %}
 
             <ul class="navbar-nav ml-auto">
 
