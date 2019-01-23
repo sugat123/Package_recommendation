@@ -30,6 +30,9 @@
 
 <body style="margin: 0; padding: 0; height: 100%; width: 100%; ">
 
+
+
+
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
@@ -41,10 +44,11 @@
 
 
         <div class="collapse navbar-collapse" id="navbarResponsive">
-            <li><a href="#about">About</a></li>
-           {% if user.is_authenticated %} <li><a href="{% url 'app:history' %}">History</a></li> {% endif %}
+           <ul class="navbar-nav mr-auto">
 
-            <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item "><a href="" class="nav-link">About</a></li>
+           {% if user.is_authenticated %} <li class="nav-item "><a href="{% url 'app:history' %}" class="nav-link">History</a></li> {% endif %}
 
 
                 <li class="nav-item " style="margin-right: 50px; margin-top: 4px;">
@@ -99,12 +103,12 @@
                 {% csrf_token %}
                 <div class="modal-body">
                     <div class="form-group">
-                        <label>Username:</label>
-                        <input type="text" class="form-control" name="username">
+                        <label for="username">Username:</label>
+                        <input type="text" class="form-control" id = "username" name="username">
                     </div>
                     <div class="form-group">
-                        <label>Password:</label>
-                        <input type="password" class="form-control" name="password">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password">
                     </div>
                     <button class="btn btn-primary btn-block">Login</button>
                     <br>
@@ -117,7 +121,6 @@
                 </a>
                 <br><br>
             </div>
-
 
         </div>
     </div>
