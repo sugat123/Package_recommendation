@@ -32,9 +32,9 @@ def object_viewed_receiver(sender, instance, request,
     csv_path = os.path.join(settings.STATIC_ROOT, 'csv/')
     #f = open(file_path + str(request.user.id), "a")
     #info_list.append(request.user.id)
-    info_list.append(instance.price)
-    info_list.append(instance.rating)
-    info_list.append(instance.secondary_activity)
+    # info_list.append(instance.price)
+    # info_list.append(instance.rating)
+    # info_list.append(instance.secondary_activity)
 
     if os.path.exists(csv_path + str(request.user.id)) == False:
 
@@ -43,15 +43,11 @@ def object_viewed_receiver(sender, instance, request,
                 'Rating' + ' ,, ' +
                 'Secondary Activity' + ' ,, ' +
                 '\n')
-        for i in range(0, len(info_list)):
-            f.write(str(info_list[i]) + ' ,, ')
+        f.write(str(instance.price) + ' ,, ' + str(instance.rating) + ' ,, ' + str(instance.secondary_activity) + ' ,, ' + '\n')
         f.write('\n')
     else:
-
         f = open(csv_path + str(request.user.id), 'a+')
-        for i in range(0, len(info_list)):
-            f.write(str(info_list[i]) + ' ,, ')
-        f.write('\n')
+        f.write(str(instance.price) + ' ,, ' + str(instance.rating) + ' ,, ' + str(instance.secondary_activity) + ' ,, ' + '\n')
 
 
     print('should have been cread')
