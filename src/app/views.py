@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, \
-    get_object_or_404, HttpResponseRedirect
+    get_object_or_404, HttpResponseRedirect, reverse, HttpResponse
 from django.urls import reverse_lazy
 from django.views import View
 from .models import Package
-from django.views.generic import DetailView
+from django.views.generic import DetailView, TemplateView
 from .forms import SignUpForm, ForgotPasswordForm
 
 from django.contrib.sites.shortcuts import get_current_site
@@ -23,6 +23,8 @@ from django.contrib import messages
 from django.db.models import Q
 
 from history.mixins import ObjectViewMixin
+
+from django.contrib import messages
 
 class indexView(ListView):
 
@@ -191,21 +193,27 @@ class loginView(View):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(username=username, password=password)
+
         if user is not None:
             login(request, user)
             return redirect(self.success_url)
         else:
-            request.session['login_error'] = 'Username and password doesn\'t match'
-        return render(request, 'index.html')
+            messages.add_message(request, messages.WARNING, 'Username or Password Invalid. Please try again !!')
+            template_name = 'loginerror.html'
+            return render(request, template_name)
+
+
+
 
 
 class logoutView(View):
-    success_url = reverse_lazy('app:index')
+    #success_url = reverse_lazy('app:index')
 
-
+    template_name  ='loginerror.html'
     def get(self, request):
         logout(request)
-        return redirect(self.success_url)
+        messages.add_message(request, messages.INFO, 'Please login to continue...')
+        return render(request, self.template_name)
 
 
 
@@ -305,5 +313,12 @@ def Like(request):
     item.like.add(request.user.id)
     return HttpResponseRedirect(item.get_absoulte_url())
 
+
+
+class LoginError(View):
+    def get(self, request):
+        messages.add_message(request, messages.ERROR, 'Username or Passoword Invalid !!')
+        template_name = 'loginerror.html'
+        return render(request, template_name)
 
 

@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from .views import indexView, packageDetail, loginView, resetPassword,\
-    activate, logoutView, forgotPasswordFormView, Like
+    activate, logoutView, forgotPasswordFormView, Like, LoginError
 from history.views import HistoryView, DeleteHistory
 
 
@@ -21,5 +21,9 @@ urlpatterns = [
     url(r'^(?P<pk>\d+)/delete/$', DeleteHistory.as_view(), name= 'deletehistory'),
 
     url(r'^like/$', Like, name='like_item_detail'),
+
+    url(r'^login/error/$', LoginError.as_view(), name='loginerror'),
+
+
 
 ]
