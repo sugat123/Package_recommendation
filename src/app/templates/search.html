@@ -1,0 +1,14 @@
+{% if products.count > 0 %}
+
+
+{% for product in products %}
+
+    <br>
+           <ul class="w3-ul" > <a href="search/{{ product.id }}/"><li>{{ product.name }}</li></a></ul>
+
+
+{% endfor %}
+
+{% else %}
+    <li>No Match Found</li>
+{% endif %}

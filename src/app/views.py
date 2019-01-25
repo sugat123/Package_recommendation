@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, \
-    get_object_or_404, HttpResponseRedirect, reverse, HttpResponse
+    get_object_or_404, HttpResponseRedirect, reverse, HttpResponse, render_to_response
 from django.urls import reverse_lazy
 from django.views import View
 from .models import Package
@@ -322,3 +322,19 @@ class LoginError(View):
         return render(request, template_name)
 
 
+
+def Search(request):
+    if request.method == "POST":
+        search_text = request.POST['search_text']
+        if search_text is not None and search_text != u"":
+            search_text = request.POST['search_text']
+            products = Package.objects.filter(name__contains=search_text)[:5]
+        else:
+            products = []
+        return render_to_response('search.html', {'products' : products})
+
+
+
+def Search_detail(request,package_id):
+    objects = Package.objects.filter(id=package_id)
+    return render(request,'Search_detail.html',{'objects':objects})
