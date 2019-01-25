@@ -3,6 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.conf import settings
 import os
+from datetime import date
 
 User = settings.AUTH_USER_MODEL
 
@@ -42,12 +43,13 @@ def object_viewed_receiver(sender, instance, request,
         f.write('Price' + ' ,, ' +
                 'Rating' + ' ,, ' +
                 'Secondary Activity' + ' ,, ' +
+                'Viewed on' + ' ,, ' +
                 '\n')
-        f.write(str(instance.price) + ' ,, ' + str(instance.rating) + ' ,, ' + str(instance.secondary_activity) + ' ,, ' + '\n')
+        f.write(str(instance.price) + ' ,, ' + str(instance.rating) + ' ,, ' + str(instance.secondary_activity) + ' ,, ' +  str(date.today())  + ' ,, ' + '\n')
         f.write('\n')
     else:
         f = open(csv_path + str(request.user.id), 'a+')
-        f.write(str(instance.price) + ' ,, ' + str(instance.rating) + ' ,, ' + str(instance.secondary_activity) + ' ,, ' + '\n')
+        f.write(str(instance.price) + ' ,, ' + str(instance.rating) + ' ,, ' + str(instance.secondary_activity) + ' ,, ' + str(date.today()) + ' ,, ' + '\n')
 
 
     print('should have been cread')

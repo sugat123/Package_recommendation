@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="w3-section w3-center" style="width: 75%; margin: 0 auto 0;">
+        <h3 class="w3-text-grey w3-xlarge">Your Entered Package Detail is:</h3>
+        <table class="w3-table-all">
+            <tr class="w3-blue-grey">
+                <th>Product</th>
+                <th>Area</th>
+                <th>Price</th>
+            </tr>
+
+            {% for object in objects %}
+                <tr>
+                    <td>{{ object.product }}</td>
+                    <td>{{ object.area }}</td>
+                    <td>{{ object.price }}</td>
+                </tr>
+
+            {% endfor %}
+
+        </table>
+
+
+    </div>
+{% endblock %}
+

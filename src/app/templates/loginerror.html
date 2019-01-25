@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+
+    <title>Login</title>
+
+{% endblock %}
+
+{% block content %}
+{% for message in messages %}
+
+
+      <div class="alert  {% if message.tags %}alert-{{ message.tags }}">{% endif %}{{ message|safe }}</div>
+    {% endfor %}
+
+
+<form method="post" action="{% url 'app:login' %}">
+    {% csrf_token %}
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password">
+        </div>
+        <button class="btn btn-primary btn-block">Login</button>
+        <br>
+
+    </div>
+</form>
+{% endblock %}
