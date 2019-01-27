@@ -78,13 +78,8 @@ WSGI_APPLICATION = 'package_recommend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', #for linux users
-        #'ENGINE': 'django.db.backends.postgres', #only for windows users
-        'NAME': 'recommend',
-        'USER': 'user1',
-        'PASSWORD': 'website',
-        'HOST': 'localhost',
-        'PORT': '',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
