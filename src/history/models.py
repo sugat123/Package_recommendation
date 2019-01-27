@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.conf import settings
+import os
+from datetime import date
 
 User = settings.AUTH_USER_MODEL
 
@@ -23,14 +25,43 @@ class History(models.Model):
     class Meta:
         verbose_name_plural = 'Histories'
 
-
+info_list = []
 def object_viewed_receiver(sender, instance, request,
                            *args, **kwargs):
+
+    #file_path = os.path.join(settings.STATIC_ROOT, 'csv/finaldatasets.csv')
+    csv_path = os.path.join(settings.STATIC_ROOT, 'csv/')
+    #f = open(file_path + str(request.user.id), "a")
+    #info_list.append(request.user.id)
+    # info_list.append(instance.price)
+    # info_list.append(instance.rating)
+    # info_list.append(instance.secondary_activity)
+
+    if os.path.exists(csv_path + str(request.user.id)) == False:
+
+        f = open(csv_path + str(request.user.id), "w")
+        f.write('Price' + ' ,, ' +
+                'Rating' + ' ,, ' +
+                'Secondary Activity' + ' ,, ' +
+                'Viewed on' + ' ,, ' +
+                '\n')
+        f.write(str(instance.price) + ' ,, ' + str(instance.rating) + ' ,, ' + str(instance.secondary_activity) + ' ,, ' +  str(date.today())  + ' ,, ' + '\n')
+        f.write('\n')
+    else:
+        f = open(csv_path + str(request.user.id), 'a+')
+        f.write(str(instance.price) + ' ,, ' + str(instance.rating) + ' ,, ' + str(instance.secondary_activity) + ' ,, ' + str(date.today()) + ' ,, ' + '\n')
+
+
+    print('should have been cread')
+
+
     new_history = History.objects.create(
         user            = request.user,
         content_type    = ContentType.objects.get_for_model(sender),
         object_id      = instance.id,
 
     )
+
+
 
 object_viewed_signal.connect(object_viewed_receiver)

@@ -76,10 +76,27 @@ WSGI_APPLICATION = 'package_recommend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2', #for linux users
+#         #'ENGINE': 'django.db.backends.postgres', #only for windows users
+#         'NAME': 'recommend',
+#         'USER': 'user1',
+#         'PASSWORD': 'website',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+<<<<<<< HEAD
+=======
+
+>>>>>>> adaa17174fd141055b1b6b64e290d6e2a38d7256
     }
 }
 
@@ -133,6 +150,7 @@ STATICFILES_DIR = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
+file_path = os.path.join(STATIC_ROOT + "/csv" +"/finaldatasets.csv")
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 

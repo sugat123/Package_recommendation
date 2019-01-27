@@ -26,6 +26,8 @@
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static  'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 
+    <script src="{% static 'js/aaasearch.js' %}"></script>
+
 </head>
 
 <body style="margin: 0; padding: 0; height: 100%; width: 100%; ">
@@ -53,10 +55,13 @@
 
                 <li class="nav-item " style="margin-right: 50px; margin-top: 4px;">
 
-                    <input type="text" placeholder="Search..">
+                    <input type="text" id = "search" name = "search" placeholder="Search..">
                     <button class="btn btn-primary" type="submit">Search</button>
 
+
                 </li>
+
+
 
                 {% if not user.is_authenticated %}
                     <li class="nav-item">
@@ -79,6 +84,7 @@
         </div>
     </div>
 </nav>
+<div id="search-results" class="w3-container w3-white w3-card-4"></div>
 
 <!-- Page Content -->
 
@@ -175,10 +181,6 @@
         </div>
     </div>
 </div>
-
-
-
-
 
 {% block content %}
 
