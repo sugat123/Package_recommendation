@@ -93,10 +93,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-<<<<<<< HEAD
-=======
 
->>>>>>> adaa17174fd141055b1b6b64e290d6e2a38d7256
+
     }
 }
 
