@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+
+    <title>Home</title>
+
+{% endblock %}
+
+{% block content %}
+
+
+
+
+    <div class="container">
+        <div class="row" style="margin-top: 2%; margin-bottom: 2%; background-color: #34ce57">
+
+            <div class="col-lg-4" style="margin-left:0; ">
+                <div class="jumbotron" style="background-color: #9BBDF9; margin-top: 10%;">
+                    <h1 class="display-4">Hello, world!</h1>
+                    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra
+                        attention to featured content or information.</p>
+                    <hr class="my-4">
+                    <p>It uses utility classes for typography and spacing to space content out within the larger
+                        container.</p>
+                    <p class="lead">
+                        <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                    </p>
+                </div>
+
+
+            </div>
+
+            <div class="col-lg-8">
+                <div class="title text-center text-info">
+                    <h2 style="color: black; margin-top: 5%;">List Of Packages</h2>
+                </div>
+                <div class="row" style="color: black; margin:0; padding:0; ">
+                    {% for object in object_list %}
+                        <div class="col-sm-4" style="margin: 0; padding: 0;">
+                            <div class="package" style="margin: 9%; height: 100%;
+                width: 100%;">
+                                <a href="{% url 'app:detail' object.id %}"><h5>{{ object.name|truncatechars:30 }}</h5>
+                                </a>
+                                Duration: {{ object.duration }}<br>
+                                Price: Rs. {{ object.price }}<br>
+                                Total likes: {{ object.like_count }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" style="background-color: greenyellow;">
+        <div class="col-sm-12 font-weight-light">
+
+
+            <div class="badge" style="font-size: large; ">Search By:</div>
+            <form class="form-inline" action="{% url 'app:index' %}" method="get">
+                <label class="name" for="name_search" style="margin-right: 10px;color: blue; margin-left: 10px;">Name:
+                    &nbsp;</label>
+                <div class="searchbyname">
+                    <input id="name_search" type="text"
+                           name="name_search" value="{{ request.GET.name }}"
+                           class="form-control"/>
+                </div>
+
+
+                <label class="duration" for="duration_search" style="margin-right: 10px; margin-left: 10px;
+color: blue;">Duration:
+                    &nbsp;</label>
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="searchbyduration">
+                        <input id="duration_search" type="text"
+                               name="duration_search" value="{{ request.GET.duration }}"
+                               class="form-control"/>
+                    </div>
+                </div>
+
+
+                <label class="location" for="location_search" style="margin-right: 10px; margin-left: 10px;
+color: blue;">Location:
+                    &nbsp;</label>
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="searchbylocation">
+                        <input id="location_search" type="text"
+                               name="location_search" value="{{ request.GET.location }}"
+                               class="form-control"/></div>
+                </div>
+
+
+                <label class="price" style="margin-right: 10px; margin-left: 10px;
+color: blue;">Price: &nbsp;</label>
+                <div class="searchbyprice">
+                    <label for="minprice_search" style="">Min Price:</label>
+                    <input id="minprice_search" type="text"
+                           name="minprice_search" value="{{ request.GET.price }}"
+                           class="form-control"/>
+
+                    <label for="maxprice_search">Max Price:</label>
+                    <input id="maxprice_search" type="text"
+                           name="maxprice_search" value="{{ request.GET.price }}"
+                           class="form-control"/><br></div>
+
+                <button type="submit" class="btn btn-primary mb-2">Submit</button>
+            </form>
+
+        </div>
+
+
+        </div>
+    </div>
+    </div>
+    </div>
+
+
+
+    </form>
+
+
+    </div>
+
+    </div>
+
+
+
+
+    {% if is_paginated %}
+
+        <ul class="pagination" style="margin-left: 25%; margin-right: 25%; ">
+
+            {% if page_obj.has_previous %}
+                <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link"><i
+                        class="fa fa-chevron-left"
+                        aria-hidden="true"></i>Previous</a></li>
+            {% else %}
+                <li class="disabled"><span><i class="fa fa-chevron-left" aria-hidden="true"></i></span></li>
+            {% endif %}
+
+            {% if page_obj.number|add:'-4' > 1 %}
+                <li class="page-item"><a href="?page={{ page_obj.number|add:'-5' }}" class="page-link">&hellip;</a>
+                </li>
+            {% endif %}
+
+            {% for i in page_obj.paginator.page_range %}
+
+                {% if page_obj.number == i %}
+                    <li class="active" class="page-item"><a style="color:black;" href="?page={{ i }}"
+                                                            class="page-link"><span>{{ i }} <span
+                            class="sr-only">(current)</span></span></a></li>
+                {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
+                    <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+                {% endif %}
+            {% endfor %}
+
+            {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
+                <li class="page-item"><a href="?page={{ page_obj.number|add:'5' }}" class="page-link">&hellip;</a>
+                </li>
+            {% endif %}
+
+            {% if page_obj.has_next %}
+                <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link"><i
+                        class="fa fa-chevron-right"
+                        aria-hidden="true"></i>Next</a></li>
+            {% else %}
+                <li class="disabled"><span><i class="fa fa-chevron-right" aria-hidden="true"></i></span></li>
+            {% endif %}
+        </ul>
+
+    {% endif %}
+
+
+    </div>
+
+
+
+
+
+    </body>
+
+    <script src="{% static 'js/custom.js' %}"></script>
+
+{% endblock %}
