@@ -30,7 +30,6 @@ class indexView(ListView):
 
     model = Package
     template_name = 'index.html'
-    print('in index view right now !!')
     paginate_by = 12
 
 

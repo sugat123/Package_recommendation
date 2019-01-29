@@ -19,6 +19,8 @@ class Package(models.Model):
     location = models.CharField(max_length=100)
     primary_activity = models.CharField(max_length=100)
     secondary_activity = models.CharField(max_length=100)
+    image = models.CharField(max_length=200)
+    description = models.TextField()
 
     like = models.ManyToManyField(User, blank=True)
 
@@ -27,6 +29,7 @@ class Package(models.Model):
     season = models.CharField(max_length=30, blank=True, null= True)
 
     history = GenericRelation(History, related_name="package")
+
 
     def __str__(self):
         return self.name
