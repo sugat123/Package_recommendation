@@ -39,15 +39,17 @@ class Command(BaseCommand):
         file_path = os.path.join(settings.STATIC_ROOT + "/csv" + "/description.csv")
         f = open(file_path, "r")
         lines = f.read().strip().split("#####")
-
+        j = 1
         for i in lines:
-            j = 1
-            p = Package.objects.get(id=j)
-            line = re.sub(r"[\n\t]*", "", i)
-            p.description = line
-            p.save()
             if j > 532:
                 break
+            else:
+                p = Package.objects.get(id=j)
+                line = re.sub(r"[\n\t]*", "", i)
+                p.description = line
+                p.save()
+                j=j+1
+
         print('Description completed... !!')
 
 
