@@ -26,11 +26,22 @@ from history.mixins import ObjectViewMixin
 
 from django.contrib import messages
 
+from .recommendation import package_r
+
+
+
 class indexView(ListView):
 
     model = Package
     template_name = 'index.html'
     paginate_by = 12
+
+    print('hello i m in index')
+    #a = package_r()
+    #print(a.rec_list)
+
+    l = package_r.rec_list
+   # print(l, 'indexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 
 
     def get_queryset(self):
@@ -140,6 +151,12 @@ class indexView(ListView):
                                                  Q(location__icontains=location),
                                                  Q(price__gt=minprice), Q(price__lt=maxprice))
             return packagelist
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['recommended'] = Package.objects.filter(Q(id__in = self.l))
+        return context
 
 
 
