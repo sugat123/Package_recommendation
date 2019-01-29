@@ -22,7 +22,7 @@ class Package(models.Model):
     image = models.CharField(max_length=200)
     description = models.TextField()
 
-    like = models.ManyToManyField(User, blank=True)
+    like_by = models.ManyToManyField(User, blank=True, related_name='likes')
 
     cost_included = models.TextField(blank=True,null=True)
     cost_excluded = models.TextField(blank=True,null=True)
