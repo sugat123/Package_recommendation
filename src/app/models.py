@@ -19,14 +19,17 @@ class Package(models.Model):
     location = models.CharField(max_length=100)
     primary_activity = models.CharField(max_length=100)
     secondary_activity = models.CharField(max_length=100)
+    image = models.CharField(max_length=200)
+    description = models.TextField()
 
-    like = models.ManyToManyField(User, blank=True)
+    like_by = models.ManyToManyField(User, blank=True, related_name='likes')
 
     cost_included = models.TextField(blank=True,null=True)
     cost_excluded = models.TextField(blank=True,null=True)
     season = models.CharField(max_length=30, blank=True, null= True)
 
     history = GenericRelation(History, related_name="package")
+
 
     def __str__(self):
         return self.name

@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
+
+
+
+
+
 {% block title %}
 
     <title>Home</title>
@@ -27,7 +32,6 @@
                     </p>
                 </div>
 
-
             </div>
 
             <div class="col-lg-8">
@@ -39,11 +43,12 @@
                         <div class="col-sm-4" style="margin: 0; padding: 0;">
                             <div class="package" style="margin: 9%; height: 100%;
                 width: 100%;">
+
                                 <a href="{% url 'app:detail' object.id %}"><h5>{{ object.name|truncatechars:30 }}</h5>
                                 </a>
                                 Duration: {{ object.duration }}<br>
                                 Price: Rs. {{ object.price }}<br>
-                                Total likes: {{ object.like_count }}
+                                {#                                Total likes: {{ object.like_count }}#}
                             </div>
                         </div>
                     {% endfor %}
@@ -76,7 +81,6 @@ color: black;">Duration:
                                name="duration_search" value="{{ request.GET.duration }}"
                                class="form-control"/>
                     </div>
-                </div>
 
 
                 <label class="location" for="location_search" style="margin-right: 10px; margin-left: 10px;
@@ -98,32 +102,19 @@ color: black;">Price: &nbsp;</label>
                            name="minprice_search" value="{{ request.GET.price }}"
                            class="form-control"/>
 
-                    <label for="maxprice_search">Max Price:</label>
-                    <input id="maxprice_search" type="text"
-                           name="maxprice_search" value="{{ request.GET.price }}"
-                           class="form-control"/><br></div>
+                        <label for="maxprice_search">Max Price:</label>
+                        <input id="maxprice_search" type="text"
+                               name="maxprice_search" value="{{ request.GET.price }}"
+                               class="form-control"/><br></div>
 
-                <button type="submit" class="btn btn-primary mb-2">Submit</button>
-            </form>
+                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                </form>
+
+            </div>
+
 
         </div>
-
-
-        </div>
     </div>
-    </div>
-    </div>
-
-
-
-    </form>
-
-
-    </div>
-
-    </div>
-
-
 
 
     {% if is_paginated %}
@@ -171,13 +162,37 @@ color: black;">Price: &nbsp;</label>
     {% endif %}
 
 
+    <div class="container">
+        <h1 style="margin-top: 10%">Recommendation</h1>
+
+            <div class="col-md-12" >
+
+
+
+                    <div class="container">
+                        <div class="row">
+                            {% for object in recommended %}
+                                <div class="col-md-4" style="margin: 0; padding: 0;">
+                                    <div class="package" style="margin: 9%; height: 100%;
+                                        width: 100%;">
+
+                                        <a href="{% url 'app:detail' object.id %}">
+                                            <h5>{{ object.name|truncatechars:30 }}</h5>
+                                        </a>
+                                        Duration: {{ object.duration }}<br>
+                                        Price: Rs. {{ object.price }}<br>
+                                        {#                                Total likes: {{ object.like_count }}#}
+                                    </div>
+                                </div>{% endfor %}
+
+                        </div>
+                    </div>
+
+                    </div>
+
+
+
     </div>
-
-
-
-
-
-    </body>
 
     <script src="{% static 'js/custom.js' %}"></script>
 

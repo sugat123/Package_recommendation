@@ -7,7 +7,6 @@ from app.mixins import UserMixin
 
 # Create your views here.
 class HistoryView(UserMixin, ListView):
-    print('in hisory')
     model = History
     template_name = 'history.html'
 
