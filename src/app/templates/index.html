@@ -17,7 +17,7 @@
 
 
     <div class="container">
-        <div class="row" style="margin-top: 2%; margin-bottom: 2%; background-color: #34ce57">
+        <div class="row" style="margin-top: 2%; margin-bottom: 2%; background-color: #f0f0f0">
 
             <div class="col-lg-4" style="margin-left:0; ">
                 <div class="jumbotron" style="background-color: #9BBDF9; margin-top: 10%;">
@@ -57,51 +57,49 @@
         </div>
 
 
-        <div class="row" style="background-color: greenyellow;">
-            <div class="col-sm-12 font-weight-light">
+        <div class="row" style="background-color: rgb(250, 250, 250);">
+        <div class="col-sm-12 font-weight-light">
 
 
-                <div class="badge" style="font-size: large; ">Search By:</div>
-                <form class="form-inline" action="{% url 'app:index' %}" method="get">
-                    <label class="name" for="name_search" style="margin-right: 10px;color: blue; margin-left: 10px;">Name:
-                        &nbsp;</label>
-                    <div class="searchbyname">
-                        <input id="name_search" type="text"
-                               name="name_search"
+            <div class="badge" style="font-size: large; ">Search By:</div>
+            <form class="form-inline" action="{% url 'app:index' %}" method="get">
+                <label class="name" for="name_search" style="margin-right: 10px;color: black; margin-left: 10px;">Name:
+                    &nbsp;</label>
+                <div class="searchbyname">
+                    <input id="name_search" type="text"
+                           name="name_search" value="{{ request.GET.name }}"
+                           class="form-control"/>
+                </div>
+
+
+                <label class="duration" for="duration_search" style="margin-right: 10px; margin-left: 10px;
+color: black;">Duration:
+                    &nbsp;</label>
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="searchbyduration">
+                        <input id="duration_search" type="text"
+                               name="duration_search" value="{{ request.GET.duration }}"
                                class="form-control"/>
                     </div>
 
 
-                    <label class="duration" for="duration_search" style="margin-right: 10px; margin-left: 10px;
-color: blue;">Duration:
-                        &nbsp;</label>
-                    <div class="input-group mb-2 mr-sm-2">
-                        <div class="searchbyduration">
-                            <input id="duration_search" type="text"
-                                   name="duration_search"
-                                   class="form-control"/>
-                        </div>
-                    </div>
+                <label class="location" for="location_search" style="margin-right: 10px; margin-left: 10px;
+color: black;">Location:
+                    &nbsp;</label>
+                <div class="input-group mb-2 mr-sm-2">
+                    <div class="searchbylocation">
+                        <input id="location_search" type="text"
+                               name="location_search" value="{{ request.GET.location }}"
+                               class="form-control"/></div>
+                </div>
 
-
-                    <label class="location" for="location_search" style="margin-right: 10px; margin-left: 10px;
-color: blue;">Location:
-                        &nbsp;</label>
-                    <div class="input-group mb-2 mr-sm-2">
-                        <div class="searchbylocation">
-                            <input id="location_search" type="text"
-                                   name="location_search" value="{{ request.GET.location }}"
-                                   class="form-control"/></div>
-                    </div>
-
-
-                    <label class="price" style="margin-right: 10px; margin-left: 10px;
-color: blue;">Price: &nbsp;</label>
-                    <div class="searchbyprice">
-                        <label for="minprice_search" style="">Min Price:</label>
-                        <input id="minprice_search" type="text"
-                               name="minprice_search"
-                               class="form-control"/>
+                <label class="price" style="margin-right: 10px; margin-left: 10px;
+color: black;">Price: &nbsp;</label>
+                <div class="searchbyprice">
+                    <label for="minprice_search" style="">Min Price:</label>
+                    <input id="minprice_search" type="text"
+                           name="minprice_search" value="{{ request.GET.price }}"
+                           class="form-control"/>
 
                         <label for="maxprice_search">Max Price:</label>
                         <input id="maxprice_search" type="text"
