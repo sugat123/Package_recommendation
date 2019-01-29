@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.shortcuts import reverse
 from django.contrib.contenttypes.fields import GenericRelation
 from history.models import History
+import time
+from django.conf import settings
+import os
 
 
 
@@ -40,5 +43,14 @@ class Package(models.Model):
     def get_absoulte_url(self):
         return reverse('app:detail', kwargs={'pk': self.pk})
 
+
+    def user_rating(self, user_id, ratingvalue):
+        file_path = os.path.join(settings.STATIC_ROOT + "/csv/ML/ratings.csv")
+        f = open(file_path, "a+")
+
+        f.write(str(user_id) + ',' + str(ratingvalue) + ',' + str(self.id) + ',' + str(int(time.time())) + ',')
+        f.write('\n')
+
+        return
 
 
