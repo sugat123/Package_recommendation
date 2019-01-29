@@ -93,7 +93,6 @@ color: black;">Location:
                                class="form-control"/></div>
                 </div>
 
-
                 <label class="price" style="margin-right: 10px; margin-left: 10px;
 color: black;">Price: &nbsp;</label>
                 <div class="searchbyprice">
@@ -104,7 +103,7 @@ color: black;">Price: &nbsp;</label>
 
                         <label for="maxprice_search">Max Price:</label>
                         <input id="maxprice_search" type="text"
-                               name="maxprice_search" value="{{ request.GET.price }}"
+                               name="maxprice_search"
                                class="form-control"/><br></div>
 
                     <button type="submit" class="btn btn-primary mb-2">Submit</button>
@@ -165,31 +164,29 @@ color: black;">Price: &nbsp;</label>
     <div class="container">
         <h1 style="margin-top: 10%">Recommendation</h1>
 
-            <div class="col-md-12" >
+        <div class="col-md-12">
 
 
-
-                    <div class="container">
-                        <div class="row">
-                            {% for object in recommended %}
-                                <div class="col-md-4" style="margin: 0; padding: 0;">
-                                    <div class="package" style="margin: 9%; height: 100%;
+            <div class="container">
+                <div class="row">
+                    {% for object in recommended %}
+                        <div class="col-md-4" style="margin: 0; padding: 0;">
+                            <div class="package" style="margin: 9%; height: 100%;
                                         width: 100%;">
 
-                                        <a href="{% url 'app:detail' object.id %}">
-                                            <h5>{{ object.name|truncatechars:30 }}</h5>
-                                        </a>
-                                        Duration: {{ object.duration }}<br>
-                                        Price: Rs. {{ object.price }}<br>
-                                        {#                                Total likes: {{ object.like_count }}#}
-                                    </div>
-                                </div>{% endfor %}
+                                <a href="{% url 'app:detail' object.id %}">
+                                    <h5>{{ object.name|truncatechars:30 }}</h5>
+                                </a>
+                                Duration: {{ object.duration }}<br>
+                                Price: Rs. {{ object.price }}<br>
+                                {#                                Total likes: {{ object.like_count }}#}
+                            </div>
+                        </div>{% endfor %}
 
-                        </div>
-                    </div>
+                </div>
+            </div>
 
-                    </div>
-
+        </div>
 
 
     </div>
