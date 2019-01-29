@@ -158,8 +158,6 @@ class indexView(ListView):
         context['recommended'] = Package.objects.filter(Q(id__in = self.l))
         return context
 
-
-
     def post(self, request):
         print("post method called")
         form = SignUpForm(request.POST)
@@ -192,6 +190,22 @@ class indexView(ListView):
 class packageDetail(ObjectViewMixin, DetailView):
     model = Package
     template_name = 'detail.html'
+    pk_url_kwarg = 'pk'
+
+
+    def get(self, request, *args, **kwargs):
+        rating = self.request.GET.get('rating')
+        id = kwargs['pk']
+
+        if rating is not None:
+            obj = Package.objects.get(id=id)
+            obj.user_rating(request.user.id, rating)
+
+        else:
+            obj = Package.objects.get(id=id)
+            return render(request, self.template_name, {'object': obj})
+
+        return render(request, self.template_name , {'object': obj})
 
 
 
