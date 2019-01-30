@@ -39,7 +39,7 @@
                     <h2 style="color: black; margin-top: 5%;">List Of Packages</h2>
                 </div>
                 <div class="row" style="color: black; margin:0; padding:0; ">
-                    {% for object in object_list %}
+                    {% for object in page_obj %}
                         <div class="col-sm-4" style="margin: 0; padding: 0;">
                             <div class="package" style="margin: 9%; height: 100%;
                 width: 100%;">
@@ -81,6 +81,7 @@ color: black;">Duration:
                                    name="duration_search" value="{{ request.GET.duration }}"
                                    class="form-control"/>
                         </div>
+                    </div>
 
 
                         <label class="location" for="location_search" style="margin-right: 10px; margin-left: 10px;
@@ -116,7 +117,7 @@ color: black;">Price: &nbsp;</label>
     </div>
 
 
-    {% if is_paginated %}
+    {% if page_obj %}
 
         <ul class="pagination" style="margin-left: 25%; margin-right: 25%; ">
 
@@ -159,6 +160,8 @@ color: black;">Price: &nbsp;</label>
         </ul>
 
     {% endif %}
+
+
 
     {% if request.user.is_authenticated %}
         <div class="container">
