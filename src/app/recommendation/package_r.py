@@ -37,7 +37,7 @@ mf_model = runMF(interactions = interactions,
                  epoch = 30,
                  n_jobs = 4)
 
-mf_model = runMF(interactions = interactions_history,
+mf_model_history = runMF(interactions = interactions_history,
                  n_components = 30,
                  loss = 'warp',
                  epoch = 30,
@@ -49,14 +49,14 @@ rec_list = sample_recommendation_user(model = mf_model,
                                       user_dict = user_dict,
                                       item_dict = packages_dict,
                                       threshold = 4,
-                                      nrec_items = 5,
+                                      nrec_items = 6,
                                       show = True)
 
-rec_list_history = sample_recommendation_user(model = mf_model,
+rec_list_history = sample_recommendation_user(model = mf_model_history,
                                       interactions = interactions_history,
                                       user_id = 2,
                                       user_dict = user_dict_history,
                                       item_dict = packages_dict,
                                       threshold = 4,
-                                      nrec_items = 5,
+                                      nrec_items = 6,
                                       show = True)
