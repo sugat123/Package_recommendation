@@ -1,17 +1,15 @@
 # Importing Libraries and cookbooks
-from recsys import * ## recommender system cookbook
-from generic_preprocessing import * ## pre-processing code
-from IPython.display import HTML ## Setting display options for Ipython Notebook
+from .recsys import * ## recommender system cookbook
+from .generic_preprocessing import * ## pre-processing code
+import os
+from django.conf import settings
 
 # Importing rating data and having a look
-ratings = pd.read_csv('ratings.csv')
-#ratings = pd.DataFrame(df,columns=['UserId','PackageId','Rating','timestamp'])
 
+file_path = os.path.join(settings.STATIC_ROOT + "/csv" )
 
-# Importing movie data and having a look at first five columns
-packages = pd.read_csv('packages.csv')
-#packages = pd.DataFrame(d,columns=['ID','title','Duration'])
-#packages.columns = ['ID','title','Duration']
+ratings = pd.read_csv(file_path + "/ratings.csv")
+packages = pd.read_csv(file_path+"/packages.csv")
 
 
 # Creating interaction matrix using rating data
@@ -45,20 +43,20 @@ mf_model = runMF(interactions = interactions_history,
                  epoch = 30,
                  n_jobs = 4)
 ## Calling 10 movie recommendation for user id 2
-rec_list = sample_recommendation_user(model = mf_model, 
-                                      interactions = interactions, 
-                                      user_id = 2, 
+rec_list = sample_recommendation_user(model = mf_model,
+                                      interactions = interactions,
+                                      user_id = 2,
                                       user_dict = user_dict,
-                                      item_dict = packages_dict, 
+                                      item_dict = packages_dict,
                                       threshold = 4,
                                       nrec_items = 5,
                                       show = True)
 
-rec_list_history = sample_recommendation_user(model = mf_model, 
-                                      interactions = interactions_history, 
-                                      user_id = 2, 
+rec_list_history = sample_recommendation_user(model = mf_model,
+                                      interactions = interactions_history,
+                                      user_id = 2,
                                       user_dict = user_dict_history,
-                                      item_dict = packages_dict, 
+                                      item_dict = packages_dict,
                                       threshold = 4,
                                       nrec_items = 5,
                                       show = True)
