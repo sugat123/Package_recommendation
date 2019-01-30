@@ -58,55 +58,55 @@
 
 
         <div class="row" style="background-color: rgb(250, 250, 250);">
-        <div class="col-sm-12 font-weight-light">
+            <div class="col-sm-12 font-weight-light">
 
 
-            <div class="badge" style="font-size: large; ">Search By:</div>
-            <form class="form-inline" action="{% url 'app:index' %}" method="get">
-                <label class="name" for="name_search" style="margin-right: 10px;color: black; margin-left: 10px;">Name:
-                    &nbsp;</label>
-                <div class="searchbyname">
-                    <input id="name_search" type="text"
-                           name="name_search" value="{{ request.GET.name }}"
-                           class="form-control"/>
-                </div>
-
-
-                <label class="duration" for="duration_search" style="margin-right: 10px; margin-left: 10px;
-color: black;">Duration:
-                    &nbsp;</label>
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="searchbyduration">
-                        <input id="duration_search" type="text"
-                               name="duration_search" value="{{ request.GET.duration }}"
+                <div class="badge" style="font-size: large; ">Search By:</div>
+                <form class="form-inline" action="{% url 'app:index' %}" method="get">
+                    <label class="name" for="name_search" style="margin-right: 10px;color: black; margin-left: 10px;">Name:
+                        &nbsp;</label>
+                    <div class="searchbyname">
+                        <input id="name_search" type="text"
+                               name="name_search" value="{{ request.GET.name }}"
                                class="form-control"/>
                     </div>
 
 
-                <label class="location" for="location_search" style="margin-right: 10px; margin-left: 10px;
+                    <label class="duration" for="duration_search" style="margin-right: 10px; margin-left: 10px;
+color: black;">Duration:
+                        &nbsp;</label>
+                    <div class="input-group mb-2 mr-sm-2">
+                        <div class="searchbyduration">
+                            <input id="duration_search" type="text"
+                                   name="duration_search" value="{{ request.GET.duration }}"
+                                   class="form-control"/>
+                        </div>
+
+
+                        <label class="location" for="location_search" style="margin-right: 10px; margin-left: 10px;
 color: black;">Location:
-                    &nbsp;</label>
-                <div class="input-group mb-2 mr-sm-2">
-                    <div class="searchbylocation">
-                        <input id="location_search" type="text"
-                               name="location_search" value="{{ request.GET.location }}"
-                               class="form-control"/></div>
-                </div>
+                            &nbsp;</label>
+                        <div class="input-group mb-2 mr-sm-2">
+                            <div class="searchbylocation">
+                                <input id="location_search" type="text"
+                                       name="location_search" value="{{ request.GET.location }}"
+                                       class="form-control"/></div>
+                        </div>
 
-                <label class="price" style="margin-right: 10px; margin-left: 10px;
+                        <label class="price" style="margin-right: 10px; margin-left: 10px;
 color: black;">Price: &nbsp;</label>
-                <div class="searchbyprice">
-                    <label for="minprice_search" style="">Min Price:</label>
-                    <input id="minprice_search" type="text"
-                           name="minprice_search" value="{{ request.GET.price }}"
-                           class="form-control"/>
+                        <div class="searchbyprice">
+                            <label for="minprice_search" style="">Min Price:</label>
+                            <input id="minprice_search" type="text"
+                                   name="minprice_search" value="{{ request.GET.price }}"
+                                   class="form-control"/>
 
-                        <label for="maxprice_search">Max Price:</label>
-                        <input id="maxprice_search" type="text"
-                               name="maxprice_search"
-                               class="form-control"/><br></div>
+                            <label for="maxprice_search">Max Price:</label>
+                            <input id="maxprice_search" type="text"
+                                   name="maxprice_search"
+                                   class="form-control"/><br></div>
 
-                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                        <button type="submit" class="btn btn-primary mb-2">Submit</button>
                 </form>
 
             </div>
@@ -160,36 +160,79 @@ color: black;">Price: &nbsp;</label>
 
     {% endif %}
 
+    {% if request.user.is_authenticated %}
+        <div class="container">
+            <h1 style="margin-top: 10%">Recommendation</h1>
 
-    <div class="container">
-        <h1 style="margin-top: 10%">Recommendation</h1>
-
-        <div class="col-md-12">
+            <div class="col-md-12">
 
 
-            <div class="container">
-                <div class="row">
-                    {% for object in recommended %}
-                        <div class="col-md-4" style="margin: 0; padding: 0;">
-                            <div class="package" style="margin: 9%; height: 100%;
+                <div class="container">
+                    <div class="row">
+                        {% for object in recommended %}
+                            <div class="col-md-4" style="margin: 0; padding: 0;">
+                                <div class="package" style="margin: 9%; height: 100%;
                                         width: 100%;">
 
-                                <a href="{% url 'app:detail' object.id %}">
-                                    <h5>{{ object.name|truncatechars:30 }}</h5>
-                                </a>
-                                Duration: {{ object.duration }}<br>
-                                Price: Rs. {{ object.price }}<br>
-                                {#                                Total likes: {{ object.like_count }}#}
-                            </div>
-                        </div>{% endfor %}
+                                    <a href="{% url 'app:detail' object.id %}">
+                                        <h5>{{ object.name|truncatechars:30 }}</h5>
+                                    </a>
+                                    Duration: {{ object.duration }}<br>
+                                    Price: Rs. {{ object.price }}<br>
+                                    {#                                Total likes: {{ object.like_count }}#}
+                                </div>
+                            </div>{% endfor %}
 
+                    </div>
                 </div>
+
             </div>
+
 
         </div>
 
 
-    </div>
+
+
+
+
+
+
+
+
+
+
+        <div class="container">
+            <h1 style="margin-top: 10%">Recommendation via History</h1>
+
+            <div class="col-md-12">
+
+
+                <div class="container">
+                    <div class="row">
+                        {% for object in recommended_history %}
+                            <div class="col-md-4" style="margin: 0; padding: 0;">
+                                <div class="package" style="margin: 9%; height: 100%;
+                                        width: 100%;">
+
+                                    <a href="{% url 'app:detail' object.id %}">
+                                        <h5>{{ object.name|truncatechars:30 }}</h5>
+                                    </a>
+                                    Duration: {{ object.duration }}<br>
+                                    Price: Rs. {{ object.price }}<br>
+                                    {#                                Total likes: {{ object.like_count }}#}
+                                </div>
+                            </div>{% endfor %}
+
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    {% endif %}
 
     <script src="{% static 'js/custom.js' %}"></script>
 
