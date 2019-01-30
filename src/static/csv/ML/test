@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jan 29 22:16:10 2019
+
+@author: linusxrstha
+"""
+import csv
+count = 0
+filename = 'ratings.csv'
+
+with open(filename) as f:
+    count = count+sum(1 for line in f)
+
+print(count)

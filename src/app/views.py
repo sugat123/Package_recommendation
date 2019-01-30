@@ -40,7 +40,9 @@ class indexView(ListView):
     #a = package_r()
     #print(a.rec_list)
 
-    l = package_r.rec_list
+    recommended_rating = package_r.rec_list
+    recommended_history = package_r.rec_list_history
+
    # print(l, 'indexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 
 
@@ -155,7 +157,8 @@ class indexView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['recommended'] = Package.objects.filter(Q(id__in = self.l))
+        context['recommended'] = Package.objects.filter(Q(id__in = self.recommended_rating))
+        context['recommended_history'] = Package.objects.filter(Q(id__in=self.recommended_history))
         return context
 
     def post(self, request):
