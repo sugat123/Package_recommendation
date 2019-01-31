@@ -51,7 +51,7 @@ def rec_list(userid):
                                user_dict=user_dict,
                                item_dict=packages_dict,
                                threshold=4,
-                               nrec_items=5,
+                               nrec_items=6,
                                show=True)
     print('i am in a list and user id is: {}'.format(userid))
     return recommended
@@ -63,6 +63,6 @@ def rec_list_history(userid):
                                           user_dict = user_dict_history,
                                           item_dict = packages_dict,
                                           threshold = 4,
-                                          nrec_items = 5,
+                                          nrec_items = 6,
                                           show = True)
     return recommended_history

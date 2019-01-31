@@ -30,13 +30,13 @@
 
 </head>
 
-<body style="margin: 0; padding: 0; height: 100%; width: 100%; ">
+<body style="margin: 0; padding-top: 60px; height: 100%; width: 100%; ">
 
 
 
 
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
         <a class="navbar-brand" href="{% url 'app:index' %}">Recommendation</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -49,7 +49,7 @@
            <ul class="navbar-nav mr-auto">
 
 
-            <li class="nav-item "><a href="" class="nav-link">About</a></li>
+           
            {% if user.is_authenticated %} <li class="nav-item "><a href="{% url 'app:history' %}" class="nav-link">History</a></li> {% endif %}
 
 
