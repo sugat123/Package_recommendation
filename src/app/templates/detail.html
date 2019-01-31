@@ -8,23 +8,36 @@
 {% block content %}
 
     <div class="contatiner">
-        <div class="row">
+    <img src="{{ object.image }}" alt="">
+
+
+        <div class="row" style="margin-top: 5%">
+            <div class="col">
+                <img src="{{ object.image }}" alt="">
+            </div>
+            <div class="col" style="background-color: ghostwhite">
+                <p style="text-align: justify; padding: 40px; margin: 20px;">{{ object.description }}</p>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 5%">
+
+
 
             <div class="col">
-                <div class="card" style="margin-left:5%; margin-top: 5%; padding: 3%;">
-                    <img src="{{ object.image }}" alt="">
-                    Name of Package: {{ object.name }}
-                    Price: {{ object.price }}<br><br>
-                    Duration: {{ object.duration }}<br><br>
-                    Duration: {{ object.rating }}<br><br>
-                    Tour Type: {{ object.tourtype }}<br><br>
-                    Trek Difficulty: {{ object.trekdifficulty }}<br><br>
-                    Operator: {{ object.operator }}<br><br>
-                    Location: {{ object.location }}<br><br>
-                    Primary Activity: {{ object.primary_activity }}<br><br>
-                    Secondary Activity: {{ object.secondary_activty }}<br>
-
-                </div>
+                <ul list-group>
+                    <li  class="list-group-item">Name of Package: {{ object.name }}</li>
+                    <li  class="list-group-item">Price: {{ object.price }}</li>
+                    <li  class="list-group-item">Duration: {{ object.duration }}</li>
+                        <li  class="list-group-item">Tour Type: {{ object.tourtype }}</li>
+                    <li  class="list-group-item">Trek Difficulty: {{ object.trekdifficulty }}</li>
+                   <li  class="list-group-item"> Operator: {{ object.operator }}</li>
+                    <li  class="list-group-item">Location: {{ object.location }}</li>
+                   <li  class="list-group-item"> Primary Activity: {{ object.primary_activity }}</li>
+                   <li  class="list-group-item"> Secondary Activity: {{ object.secondary_activty }}</li>
+                  <li  class="list-group-item"> Ratings: {{ object.rating }}</li>
+                </ul>
+            </div>
 
                 <div class="col">
                     <h1>Rating</h1>
@@ -58,9 +71,11 @@
 
                         </fieldset>
                         <br>
+                        <div class="review" style="margin-top:8%">
                         <label for="review">Reviews</label>
-                        <input type="text" name="review" id="review">
-                        <button type="submit" class="btn btn-success">Submit</button>
+                        <input type="text" name="review" id="review" style=" height:200px;font-size:14pt;"><br>
+                        <button type="submit" class="btn btn-success" style="margin-top:4%">Submit</button>
+                        </div>
                     </form>
 
 
@@ -70,13 +85,20 @@
     </div>
 
 
-    <style
-    >
+    <style>
         @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
+        html, body {
+            margin: 0;
+            height: 100%;
+        }
 
-
-
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
         /****** Style Star Rating Widget *****/
 

@@ -98,7 +98,7 @@
                         <div class="col-md-4">
                             <div class="card flex-md-row mb-4 box-shadow h-md-250">
                                 <div class="card-body d-flex flex-column align-items-start">
-                                    <strong class="d-inline-block mb-2 text-primary">{{ object.name|truncatechars:40 }}</strong>
+                                    <a href="{% url 'app:detail' object.id %}"><strong class="d-inline-block mb-2 text-primary">{{ object.name|truncatechars:40 }}</strong></a>
 
                                     <div class="mb-1 text-muted">Nov 12</div>
                                     <p class="card-text mb-auto">{{ object.description|truncatechars:150 }}</p>
@@ -191,8 +191,8 @@
                             <div class="col-md-4">
                                 <div class="card flex-md-row mb-4 box-shadow h-md-250">
                                     <div class="card-body d-flex flex-column align-items-start">
-                                        <strong class="d-inline-block mb-2 text-primary">{{ object.name|truncatechars:40 }}</strong>
-                                        <div class="mb-1 text-muted">Nov 12</div>
+                                    <a href="{% url 'app:detail' object.id %}"><strong class="d-inline-block mb-2 text-primary">{{ object.name|truncatechars:40 }}</strong></a>
+                                       <div class="mb-1 text-muted">Nov 12</div>
                                         <p class="card-text mb-auto">{{ object.description|truncatechars:150 }}</p>
                                         <a href="{% url 'app:detail' object.id %}">Continue reading</a>
                                     </div>
@@ -210,7 +210,6 @@
                                 <div class="card flex-md-row mb-4 box-shadow h-md-250">
                                     <div class="card-body d-flex flex-column align-items-start">
                                         <strong class="d-inline-block mb-2 text-primary">{{ object.name|truncatechars:40 }}</strong>
-
                                         <div class="mb-1 text-muted">Nov 12</div>
                                         <p class="card-text mb-auto">{{ object.description|truncatechars:150 }}</p>
                                         <a href="{% url 'app:detail' object.id %}">Continue reading</a>
