@@ -10,6 +10,7 @@ $(document).ready(function () {
         if ($(".searchbyname").is(':hidden')) {
             //do something I am hidden!
             $(".searchbyname").slideDown();
+            console.log('name clicked');
         }
 
         else {
@@ -55,3 +56,24 @@ $(document).ready(function () {
 
 
 });
+
+
+
+
+jQuery(document).ready(function() {
+    var x = $(".x").offset();
+    var y = $('.y').offset();
+
+    jQuery(window).scroll(function() {
+        var scrolltop = jQuery(window).scrollTop();
+
+        if ( scrolltop >= x.top && scrolltop <=y.top ) {
+            jQuery(".x").addClass('fixed');
+            jQuery(".y").addClass('reduce');
+        } else {
+            jQuery(".x").removeClass('fixed');
+            jQuery(".x").removeClass('reduce');
+
+        }
+
+    });

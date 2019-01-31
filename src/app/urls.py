@@ -27,6 +27,6 @@ urlpatterns = [
     url(r'^search/$', Search, name='search'),
     url(r'^search/(?P<package_id>[0-9]+)/$', Search_detail),
 
-
+   # url(r'^test/$', test.as_view(), name = 'test'),
 
 ]

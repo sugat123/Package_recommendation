@@ -43,20 +43,26 @@ mf_model_history = runMF(interactions = interactions_history,
                  epoch = 30,
                  n_jobs = 4)
 ## Calling 10 movie recommendation for user id 2
-rec_list = sample_recommendation_user(model = mf_model,
-                                      interactions = interactions,
-                                      user_id = 2,
-                                      user_dict = user_dict,
-                                      item_dict = packages_dict,
-                                      threshold = 4,
-                                      nrec_items = 6,
-                                      show = True)
 
-rec_list_history = sample_recommendation_user(model = mf_model_history,
-                                      interactions = interactions_history,
-                                      user_id = 2,
-                                      user_dict = user_dict_history,
-                                      item_dict = packages_dict,
-                                      threshold = 4,
-                                      nrec_items = 6,
-                                      show = True)
+def rec_list(userid):
+    recommended = sample_recommendation_user(model=mf_model,
+                               interactions=interactions,
+                               user_id=userid,
+                               user_dict=user_dict,
+                               item_dict=packages_dict,
+                               threshold=4,
+                               nrec_items=6,
+                               show=True)
+    print('i am in a list and user id is: {}'.format(userid))
+    return recommended
+
+def rec_list_history(userid):
+    recommended_history = sample_recommendation_user(model = mf_model_history,
+                                          interactions = interactions_history,
+                                          user_id = userid,
+                                          user_dict = user_dict_history,
+                                          item_dict = packages_dict,
+                                          threshold = 4,
+                                          nrec_items = 6,
+                                          show = True)
+    return recommended_history
