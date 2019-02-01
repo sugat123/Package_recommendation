@@ -32,6 +32,7 @@ class Package(models.Model):
     season = models.CharField(max_length=30, blank=True, null= True)
 
     history = GenericRelation(History, related_name="package")
+    view_count = models.IntegerField(default=0)
 
 
     def __str__(self):
@@ -53,4 +54,17 @@ class Package(models.Model):
 
         return
 
+    def view_count_increment(self):
+        self.view_count = self.view_count+1
+        self.save()
+        return
+
+
+
+
+class Search(models.Model):
+    search_text = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.search_text
 

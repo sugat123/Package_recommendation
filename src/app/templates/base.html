@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
 
     <meta charset="utf-8">
@@ -25,68 +26,71 @@
 
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static  'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
 
     <script src="{% static 'js/aaasearch.js' %}"></script>
 
 </head>
 
-<body style="margin: 0; padding-top: 60px; height: 100%; width: 100%; ">
+<body style="margin: 0; padding-top: 60px; font-family: 'Fira Sans', 'extra-light' ; ">
 
 
+<!-- NavBar  -->
+<header>
+    <div class="container-fullwidth">
+        <!-- Just an image -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <a class="navbar-brand" href="{% url 'app:index' %}">Hamro Logo</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
+            <div class="collapse navbar-collapse" id="navbarNav">
 
-<!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'app:index' %}">Recommendation</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+                <ul class="navbar-nav ml-lg-auto">
+{#                    <li class="nav-item " style="margin-right: 50px; margin-top: 4px;">#}
+{##}
+{#                        <input type="text" id="search" name="search" placeholder="Search..">#}
+{#                        <button class="btn btn-primary" type="submit">Search</button>#}
+{#                        <div id="search-results" class="w3-container w3-white w3-card-4"></div>#}
+{##}
+{#                    </li>#}
 
-
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-           <ul class="navbar-nav mr-auto">
-
-
-           
-           {% if user.is_authenticated %} <li class="nav-item "><a href="{% url 'app:history' %}" class="nav-link">History</a></li> {% endif %}
-
-
-                <li class="nav-item " style="margin-right: 50px; margin-top: 4px;">
-
-                    <input type="text" id = "search" name = "search" placeholder="Search..">
-                    <button class="btn btn-primary" type="submit">Search</button>
-
-
-                </li>
-
-
-
-                {% if not user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="modal" data-target="#loginModal"><strong>Login</strong></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="modal"
-                           data-target="#registerModal"><strong>Register</strong></a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="">Welcome !! {{ user.username }} </a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{% url 'app:index' %}">Home <span class="sr-only">(current)</span></a>
                     </li>
 
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Welcome !! {{ user.username }} </a>
+                        </li>
+                        <li class="nav-item ">
+                            <a href="{% url 'app:history' %}" class="nav-link">History</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'app:logout' %}">Logout</a>
+                        </li>
+
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="modal"
+                               data-target="#registerModal" href="#">Register</a>
+                        </li>
+                    {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'app:logout' %}">Logout</a>
+                        <a class="nav-link disabled" href="#">Disabled</a>
                     </li>
-                {% endif %}
-            </ul>
-        </div>
+                </ul>
+            </div>
+        </nav>
+
     </div>
-</nav>
-<div id="search-results" class="w3-container w3-white w3-card-4"></div>
+</header>
 
-<!-- Page Content -->
 
 {% if login_error %}
     <div class="alert alert-danger">{{ login_error }}</div>
@@ -110,7 +114,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="username">Username:</label>
-                        <input type="text" class="form-control" id = "username" name="username">
+                        <input type="text" class="form-control" id="username" name="username">
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
@@ -182,10 +186,16 @@
     </div>
 </div>
 
-{% block content %}
 
+{% block homepage %}
 {% endblock %}
-<!-- Bootstrap core JavaScript -->
+
+
+
+
+    {% block content %}
+    {% endblock %}
+    <!-- Bootstrap core JavaScript -->
 
 </body>
 

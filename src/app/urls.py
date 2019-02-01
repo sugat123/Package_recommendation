@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from .views import indexView, packageDetail, loginView, resetPassword,\
-    activate, logoutView, forgotPasswordFormView, Like, LoginError, Search_detail, Search
+    activate, logoutView, forgotPasswordFormView, Like, LoginError, Search_detail, Search, FilterPage, CustomSearch
 from history.views import HistoryView, DeleteHistory
 
 
@@ -27,6 +27,10 @@ urlpatterns = [
     url(r'^search/$', Search, name='search'),
     url(r'^search/(?P<package_id>[0-9]+)/$', Search_detail),
 
-   # url(r'^test/$', test.as_view(), name = 'test'),
+    url(r'^filter/$', FilterPage.as_view(), name='filter'),
+
+    url(r'^customsearch/$', CustomSearch.as_view(), name='customsearch'),
+
+    # url(r'^test/$', test.as_view(), name = 'test'),
 
 ]

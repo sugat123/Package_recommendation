@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect, \
     get_object_or_404, HttpResponseRedirect, render_to_response
 from django.urls import reverse_lazy
 from django.views import View
-from .models import Package
+from .models import Package, Search
 from django.views.generic import DetailView
-from .forms import SignUpForm, ForgotPasswordForm
+from .forms import SignUpForm, ForgotPasswordForm, SearchForm
 
 from django.contrib.sites.shortcuts import get_current_site
 from django.template.loader import render_to_string
@@ -28,6 +28,7 @@ from .recommendation import package_r
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
+
 def get_user_id(id):
     return id
 
@@ -36,6 +37,7 @@ class indexView(View):
 
 
     template_name = 'index.html'
+    form = SignUpForm()
 
 
     def get(self, request, *args, **kwargs):
@@ -44,6 +46,13 @@ class indexView(View):
         location = self.request.GET.get('location_search')
         minprice = self.request.GET.get('minprice_search')
         maxprice = self.request.GET.get('maxprice_search')
+
+        searchbox = self.request.GET.get('searchform')
+        print(searchbox,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+
+        if searchbox:
+            print('gone to filter')
+            return FilterPage().post(request)
 
         if request.user.id is not None:
             recommended_rating = package_r.rec_list(request.user.id)
@@ -154,7 +163,7 @@ class indexView(View):
 
 
         try:
-            paginator = Paginator(packagelist, 12)
+            paginator = Paginator(packagelist, 9)
             page = request.GET.get('page')
             items = paginator.page(page)
         except PageNotAnInteger:
@@ -164,6 +173,8 @@ class indexView(View):
         context = {
 
             'page_obj': items,
+            'form': self.form,
+
 
         }
 
@@ -171,21 +182,13 @@ class indexView(View):
             context.update({'recommended' : Package.objects.filter(Q(id__in= recommended_rating)),
                             'recommended_history': Package.objects.filter(Q(id__in=recommended_history))})
 
-
         return render(request, self.template_name, context)
 
-    # def get_context_data(self, **kwargs):
-    #
-    #     context = super().get_context_data(**kwargs)
-    #     userid = self.request.user.id
-    #     context['recommended'] = Package.objects.filter(Q(id__in = self.recommended_rating))
-    #     context['recommended_history'] = Package.objects.filter(Q(id__in=self.recommended_history))
-    #     return context
-    #
 
     def post(self, request):
         print("post method called")
         form = SignUpForm(request.POST)
+        searchform = SearchForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.is_active = False
@@ -205,19 +208,58 @@ class indexView(View):
             )
             email.send()
             return render(request, 'gmail_confirm.html')
+
         print('form invalid !!')
         return render(request, 'index.html')
 
 
 
+class FilterPage(View):
+    template_name = 'filterpage.html'
+    def get(self, request, *args, **kwargs):
+        name = self.request.GET.get('searchform')
+        print(type(name))
+        object_list = Package.objects.filter(Q(name__icontains=name))
+
+        if name:
+            try:
+                # search = Search.objects.create(search_text = name)
+                # search.save()
+                paginator = Paginator(object_list, 9)
+                page = request.GET.get('page')
+                items = paginator.page(page)
+
+            except PageNotAnInteger:
+                items = paginator.page(1)
+            context={
+                'page_obj':items
+            }
+        else:
+            try:
+                last_search = Search.objects.all().order_by('-pk')
+                print(last_search)
+                object_list = Package.objects.filter(Q(name__icontains=last_search))
+                paginator = Paginator(object_list, 9)
+                page = request.GET.get('page')
+                items = paginator.page(page)
+
+            except PageNotAnInteger:
+                items = paginator.page(1)
+            context = {
+                'page_obj': items
+            }
 
 
+        return render(request, self.template_name, context)
 
-
-
-
-
-
+    def post(self, request, *args, **kwargs):
+        print('received post in filter')
+        name = self.request.POST.get('searchform')
+        print(name,'this is frm filter page')
+        object_list = Package.objects.all()
+        context = {'page_obj':object_list}
+        print('from post')
+        return render(request, self.template_name, context)
 
 
 
@@ -244,7 +286,148 @@ class packageDetail(ObjectViewMixin, DetailView):
         return render(request, self.template_name , {'object': obj})
 
 
+class CustomSearch(View):
+    template_name = 'customfilter.html'
 
+    def get(self, request, *args, **kwargs):
+        name = self.request.GET.get('name_search')
+        duration = self.request.GET.get('duration_search')
+        location = self.request.GET.get('location_search')
+        minprice = self.request.GET.get('minprice_search')
+        maxprice = self.request.GET.get('maxprice_search')
+
+
+        print(name, 'this is from customsearch')
+
+
+        if request.user.id is not None:
+            recommended_rating = package_r.rec_list(request.user.id)
+            recommended_history = package_r.rec_list_history(request.user.id)
+
+        packagelist = Package.objects.all()
+
+        # ZERO
+        if (not name) and (not duration) and (not location) and not (maxprice and minprice):
+            print('all none')
+        # return Package.objects.all()
+
+        # ONE
+        elif not name and not duration and not location and (maxprice and minprice):
+            print('only maxprice and minprice')
+            packagelist = Package.objects.filter(Q(price__gt=minprice), Q(price__lt=maxprice))
+            # return packagelist
+
+        # TWO
+        elif not name and not duration and location and not (maxprice and minprice):
+            print('only location')
+            packagelist = Package.objects.filter(Q(location__icontains=location))
+            # return packagelist
+
+        # THREE
+        elif not name and not duration and location and (maxprice and minprice):
+            print('location and price')
+            packagelist = Package.objects.filter(Q(location__icontains=location), Q(price__gt=minprice),
+                                                 Q(price__lt=maxprice))
+            # return packagelist
+
+        # FOUR
+        elif not name and duration and not location and not (maxprice and minprice):
+            print('only duration')
+            packagelist = Package.objects.filter(Q(duration__icontains=duration))
+            # return packagelist
+
+        # FIVE
+        elif not name and duration and not location and (maxprice and minprice):
+            print('duration and price')
+            packagelist = Package.objects.filter(Q(duration__icontains=duration), Q(price__gt=minprice),
+                                                 Q(price__lt=maxprice))
+            # return packagelist
+
+        # SIX
+        elif not name and duration and location and not (maxprice and minprice):
+            print('duration and location')
+            packagelist = Package.objects.filter(Q(duration__icontains=duration), Q(location__icontains=location))
+            # return packagelist
+
+        # SEVEN
+        elif not name and duration and location and (maxprice and minprice):
+            print('duration and location and price')
+            packagelist = Package.objects.filter(Q(duration__icontains=duration), Q(location__icontains=location),
+                                                 Q(price__gt=minprice), Q(price__lt=maxprice))
+            # return packagelist
+
+        # EIGHT
+        elif name and not duration and not location and not (maxprice and minprice):
+            print('only name')
+            packagelist = Package.objects.filter(Q(name__contains=name))
+            # return packagelist
+
+        # NINE
+        elif name and not duration and not location and (maxprice and minprice):
+            print('name and price')
+            packagelist = Package.objects.filter(Q(name__contains=name), Q(price__gt=minprice), Q(price__lt=maxprice))
+            # return packagelist
+
+        # TEN
+        elif name and not duration and location and not (minprice and minprice):
+            print('name and location')
+            packagelist = Package.objects.filter(Q(name__contains=name), Q(location__icontains=location))
+            # return packagelist
+
+        # ELEVEN
+        elif name and not duration and location and (minprice and maxprice):
+            print('name and duration and price')
+            packagelist = Package.objects.filter(Q(name__contains=name), Q(location__icontains=location),
+                                                 Q(price__gt=minprice), Q(price__lt=maxprice))
+            # return packagelist
+
+        # TWELVE
+        elif name and duration and not location and not (minprice and maxprice):
+            print('name and duration')
+            packagelist = Package.objects.filter(Q(name__contains=name), Q(duration__icontains=duration))
+            # return packagelist
+
+        # THIRTEEN
+        elif name and duration and not location and (minprice and maxprice):
+            print('name and duration and price')
+            packagelist = Package.objects.filter(Q(name__contains=name), Q(duration__icontains=duration),
+                                                 Q(price__gt=minprice), Q(price__lt=maxprice))
+        # return packagelist
+
+        # FOURTEEN
+        elif name and duration and location and not (maxprice and maxprice):
+            print('name and duration and location')
+            packagelist = Package.objects.filter(Q(name__contains=name), Q(duration__icontains=duration),
+                                                 Q(location__icontains=location))
+            # return packagelist
+
+        # FIFTEEN
+        elif name and duration and location and (maxprice and minprice):
+            print('name and duration and location and price')
+            packagelist = Package.objects.filter(Q(name__contains=name), Q(duration__icontains=duration),
+                                                 Q(location__icontains=location),
+                                                 Q(price__gt=minprice), Q(price__lt=maxprice))
+            # return packagelist
+
+        try:
+            paginator = Paginator(packagelist, 9)
+            page = request.GET.get('page')
+            items = paginator.page(page)
+        except PageNotAnInteger:
+            items = paginator.page(1)
+
+        context = {
+
+            'page_obj': items,
+
+
+        }
+
+        if request.user.id is not None:
+            context.update({'recommended': Package.objects.filter(Q(id__in=recommended_rating)),
+                            'recommended_history': Package.objects.filter(Q(id__in=recommended_history))})
+
+        return render(request, self.template_name, context)
 
 
 class loginView(View):
@@ -280,6 +463,8 @@ class logoutView(View):
         logout(request)
         messages.add_message(request, messages.INFO, 'Please login to continue...')
         return render(request, self.template_name)
+
+
 
 
 
@@ -404,3 +589,7 @@ def Search(request):
 def Search_detail(request,package_id):
     objects = Package.objects.filter(id=package_id)
     return render(request,'Search_detail.html',{'objects':objects})
+
+
+
+
