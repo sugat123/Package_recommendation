@@ -15,6 +15,10 @@ class SignUpForm(UserCreationForm):
 
 
 
+
+
+
+
 class NewPassword(forms.Form):
     password1 = forms.CharField(max_length=100, widget=forms.PasswordInput(
         attrs={
@@ -49,3 +53,9 @@ class FilterForm(forms.Form):
     name = forms.CharField(max_length=50)
     duration = forms.CharField(max_length=50)
     location = forms.CharField(max_length=50)
+
+
+
+
+class SearchForm(forms.Form):
+    search = forms.CharField(max_length=50)

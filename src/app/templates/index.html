@@ -11,226 +11,126 @@
 
 {% endblock %}
 
-{% block content %}
 
-
-
-
+{% block homepage %}
     <div class="container-fluid">
-        <div class="row" style="margin-top: 0%; margin-bottom: 0%; background-color: #f0f0f0">
+        {#    <section class="banner" style="margin-top: 0; padding-top: 25px;">#}
 
-            <div class="col-lg-3" style="margin-left:0; ">
+        {#            <div class="row">#}
+        {##}
+        {#                <div class="col-sm-6 ">#}
+        {#                    <h1>Amazing tours and holidays around Nepal</h1>#}
+        {#                </div>#}
+        <div class="col-sm-12" style="position: relative;">
+            <form class="form-inline" style="position: absolute; top:50%; left: 50%;"
+                  method="get" action="{% url 'app:filter' %}">
+                {% csrf_token %}
 
-                <div class="filter x">
-                <div class="badge " style="font-size: large; margin-top: 25%">Filter your search:</div>
-                <form class="form-inline" action="{% url 'app:index' %}" method="get">
-                    <ul class="list-group">
-                        <li class="list-group-item">
-
-                            <label class="name" for="name_search"
-                                   style="margin-right: 2px;color: black; margin-left: 2px; margin-top: 2px;">Name:
-                                &nbsp;</label>
-                            <div class="searchbyname">
-                                <input id="name_search" type="text"
-                                       name="name_search" value="{{ request.GET.name }}"
-                                       class="form-control"/>
-                            </div>
-                        </li>
-
-                        <li class="list-group-item">
-                            <label class="duration" for="duration_search" style="margin-right: 2px; margin-left: 2px;
-                        color: black;">Duration:
-                                &nbsp;</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <div class="searchbyduration">
-                                    <input id="duration_search" type="text"
-                                           name="duration_search" value="{{ request.GET.duration }}"
-                                           class="form-control"/>
-                                </div>
-                            </div>
-
-                        </li>
-
-                        <li class="list-group-item">
-                            <label class="location" for="location_search" style="margin-right: 2px; margin-left: 2px;
-                        color: black;">Location:
-                                &nbsp;</label>
-                            <div class="input-group mb-2 mr-sm-2">
-                                <div class="searchbylocation">
-                                    <input id="location_search" type="text"
-                                           name="location_search" value="{{ request.GET.location }}"
-                                           class="form-control"/></div>
-                            </div>
-                        </li>
-
-                        <li class="list-group-item">
-                            <label class="price" style="margin-right: 2px; margin-left: 2px;
-                        color: black;">Price: &nbsp;</label>
-                            <div class="searchbyprice">
-                                <label for="minprice_search" style="">Min Price:</label>
-                                <input id="minprice_search" type="text"
-                                       name="minprice_search" value="{{ request.GET.price }}"
-                                       class="form-control"/>
-
-                                <label for="maxprice_search">Max Price:</label>
-                                <input id="maxprice_search" type="text"
-                                       name="maxprice_search" value="{{ request.GET.price }}"
-                                       class="form-control"/><br></div>
-
-
-                        </li>
-                        <li class="list-group-item">
-                            <button type="submit" class="btn btn-primary mb-2 ">Submit</button>
-                        </li>
-                    </ul>
-                </form></div>
-
-
-            </div>
-
-
-            <div class="col-lg-9">
-                <div class="title text-center text-info">
-                    <h2 style="color: black; margin-top: 5%;">Available Travel Packages</h2>
-                </div>
-                <div class="row" style="color: black; margin:0; padding:0; ">
-                    {% for object in page_obj %}
-                        <div class="col-md-4">
-                            <div class="card flex-md-row mb-4 box-shadow h-md-250">
-                                <div class="card-body d-flex flex-column align-items-start">
-                                    <a href="{% url 'app:detail' object.id %}"><strong class="d-inline-block mb-2 text-primary">{{ object.name|truncatechars:40 }}</strong></a>
-
-                                    <div class="mb-1 text-muted">Nov 12</div>
-                                    <p class="card-text mb-auto">{{ object.description|truncatechars:150 }}</p>
-                                    <a href="{% url 'app:detail' object.id %}">Continue reading</a>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    {% endfor %}
+                <div class="form-group">
+                    <label for="Destintaion" class="sr-only">Name</label>
+                    <input id="Destintaion" type="text" name="searchform" class="form-control form-control-lg"
+                           placeholder="Destination">
                 </div>
 
-                {% if page_obj %}
+                <button class="btn btn-success btn-lg" type="submit" name="button">Search</button>
+            </form>
 
-                    <ul class="pagination" style="margin-left: 10%; margin-right: 10%; margin-top: 3%;">
 
-                        {% if page_obj.has_previous %}
-                            <li class="page-item"><a href="?page={{ page_obj.previous_page_number }}" class="page-link"><i
-                                    class="fa fa-chevron-left"
-                                    aria-hidden="true"></i>Previous</a></li>
-                        {% else %}
-                            <li class="disabled"><span><i class="fa fa-chevron-left" aria-hidden="true"></i></span></li>
-                        {% endif %}
-
-                        {% if page_obj.number|add:'-4' > 1 %}
-                            <li class="page-item"><a href="?page={{ page_obj.number|add:'-5' }}" class="page-link">&hellip;</a>
-                            </li>
-                        {% endif %}
-
-                        {% for i in page_obj.paginator.page_range %}
-
-                            {% if page_obj.number == i %}
-                                <li class="active" class="page-item"><a style="color:black;" href="?page={{ i }}"
-                                                                        class="page-link"><span>{{ i }} <span
-                                        class="sr-only">(current)</span></span></a></li>
-                            {% elif i > page_obj.number|add:'-5' and i < page_obj.number|add:'5' %}
-                                <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
-                            {% endif %}
-                        {% endfor %}
-
-                        {% if page_obj.paginator.num_pages > page_obj.number|add:'4' %}
-                            <li class="page-item"><a href="?page={{ page_obj.number|add:'5' }}" class="page-link">&hellip;</a>
-                            </li>
-                        {% endif %}
-
-                        {% if page_obj.has_next %}
-                            <li class="page-item"><a href="?page={{ page_obj.next_page_number }}" class="page-link"><i
-                                    class="fa fa-chevron-right"
-                                    aria-hidden="true"></i>Next</a></li>
-                        {% else %}
-                            <li class="disabled"><span><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
-                            </li>
-                        {% endif %}
-                    </ul>
-
-                {% endif %}
-            </div>
+            <img src="{% static 'img/Explore_Nepal.jpg' %}" alt="" style="width: 100%;">
 
         </div>
 
+        {#            </div>#}
+
+
+        {#    </section>#}
+    </div>
+
+{% endblock %}
+
+
+
+
+
+
+{{  request.user }}
+
+{% if request.user.is_authenticated %}
+
+    <div class="text-center" style="margin-top: 5%"><h1>Recommended Packages That You May Like</h1></div>
+    <div class="col-md-12">
+        <div class="container-fluid">
+            <div class="row">
+                {% for object in recommended %}
+                    <div class="col-md-4">
+                        <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                            <div class="card-body d-flex flex-column align-items-start">
+                                <a href="{% url 'app:detail' object.id %}"><strong
+                                        class="d-inline-block mb-2 text-primary">{{ object.name|truncatechars:40 }}</strong></a>
+                                <div class="mb-1 text-muted">Nov 12</div>
+                                <p class="card-text mb-auto">{{ object.description|truncatechars:150 }}</p>
+                                <a href="{% url 'app:detail' object.id %}">Continue reading</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+
+                {% for object in recommended_history %}
+                    <div class="col-md-4">
+                        <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                            <div class="card-body d-flex flex-column align-items-start">
+                                <a href="{% url 'app:detail' object.id %}"><strong
+                                        class="d-inline-block mb-2 text-primary">{{ object.name|truncatechars:40 }}</strong></a>
+                                <div class="mb-1 text-muted">Nov 12</div>
+                                <p class="card-text mb-auto">{{ object.description|truncatechars:150 }}</p>
+                                <a href="{% url 'app:detail' object.id %}">Continue reading</a>
+                            </div>
+
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
     </div>
 
 
 
-    {% if request.user.is_authenticated %}
+{% endif %}
 
-        <div class="container-fluid" style="background-color: #f0f0f0;">
-            <div class="title text-center text-info" style="margin-top: 10%; margin-bottom:5%">
-                <h2 style="color: black; ">Other packages Recommended for you that you may like...</h2>
-            </div>
 
-            <div class="col-md-12">
-                <div class="container-fluid">
-                    <div class="row">
 
-                        {% for object in recommended %}
-                            {#                            <div class="col-md-4" style="margin-top:5%; padding: 0;">#}
-                            {#                                <div class="package" style="margin: 9%; height: 100%;#}
-                            {#                                        width: 100%;">#}
-                            {##}
-                            {#                                    <a href="{% url 'app:detail' object.id %}">#}
-                            {#                                        <h5>{{ object.name|truncatechars:30 }}</h5>#}
-                            {#                                    </a>#}
-                            {#                                    Duration: {{ object.duration }}<br>#}
-                            {#                                    Price: Rs. {{ object.price }}<br>#}
-                            {#                                Total likes: {{ object.like_count }}#}
-                            {#                                </div>#}
-                            {#                            </div>#}
 
-                            <div class="col-md-4">
-                                <div class="card flex-md-row mb-4 box-shadow h-md-250">
-                                    <div class="card-body d-flex flex-column align-items-start">
-                                    <a href="{% url 'app:detail' object.id %}"><strong class="d-inline-block mb-2 text-primary">{{ object.name|truncatechars:40 }}</strong></a>
-                                       <div class="mb-1 text-muted">Nov 12</div>
-                                        <p class="card-text mb-auto">{{ object.description|truncatechars:150 }}</p>
-                                        <a href="{% url 'app:detail' object.id %}">Continue reading</a>
-                                    </div>
+{% block content %}
 
-                                </div>
-
+    {#    viewcount#}
+    <div class="text-center" style="margin-top: 5%"><h1>Most Viewed Packages</h1></div>
+    <div class="col-md-12">
+        <div class="container-fluid">
+            <div class="row">
+                {% for object in recommended_history %}
+                    <div class="col-md-4">
+                        <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                            <div class="card-body d-flex flex-column align-items-start">
+                                <a href="{% url 'app:detail' object.id %}"><strong
+                                        class="d-inline-block mb-2 text-primary">{{ object.name|truncatechars:40 }}</strong></a>
+                                <div class="mb-1 text-muted">Nov 12</div>
+                                <p class="card-text mb-auto">{{ object.description|truncatechars:150 }}</p>
+                                <a href="{% url 'app:detail' object.id %}">Continue reading</a>
                             </div>
 
-
-                        {% endfor %}
-
-
-                        {% for object in recommended_history %}
-                            <div class="col-md-4">
-                                <div class="card flex-md-row mb-4 box-shadow h-md-250">
-                                    <div class="card-body d-flex flex-column align-items-start">
-                                        <strong class="d-inline-block mb-2 text-primary">{{ object.name|truncatechars:40 }}</strong>
-                                        <div class="mb-1 text-muted">Nov 12</div>
-                                        <p class="card-text mb-auto">{{ object.description|truncatechars:150 }}</p>
-                                        <a href="{% url 'app:detail' object.id %}">Continue reading</a>
-                                    </div>
-
-                                </div>
-
-                            </div>{% endfor %}
-
+                        </div>
 
                     </div>
-                </div>
-
+                {% endfor %}
             </div>
-
-
         </div>
+    </div>
 
-
-
-    {% endif %}
 
     <script src="{% static 'js/custom.js' %}"></script>
 

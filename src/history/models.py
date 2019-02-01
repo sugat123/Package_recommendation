@@ -5,6 +5,7 @@ from django.conf import settings
 import os
 from datetime import date
 
+
 User = settings.AUTH_USER_MODEL
 
 
@@ -18,6 +19,8 @@ class History(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
     viewed_on = models.DateField(auto_now_add=True)
+
+
 
     def __str__(self):
         return str(self.content_object)
@@ -36,6 +39,8 @@ def object_viewed_receiver(sender, instance, request,
     # info_list.append(instance.price)
     # info_list.append(instance.rating)
     # info_list.append(instance.secondary_activity)
+
+    instance.view_count_increment()
 
     if os.path.exists(csv_path + str(request.user.id)) == False:
 

@@ -5,84 +5,166 @@
     <title>Detail</title>
 {% endblock %}
 
+
+
+
 {% block content %}
 
-    <div class="contatiner">
-    <img src="{{ object.image }}" alt="">
-
-
-        <div class="row" style="margin-top: 5%">
-            <div class="col">
-                <img src="{{ object.image }}" alt="">
-            </div>
-            <div class="col" style="background-color: ghostwhite">
-                <p style="text-align: justify; padding: 40px; margin: 20px;">{{ object.description }}</p>
-            </div>
-        </div>
-
-        <div class="row" style="margin-top: 5%">
 
 
 
-            <div class="col">
-                <ul list-group>
-                    <li  class="list-group-item">Name of Package: {{ object.name }}</li>
-                    <li  class="list-group-item">Price: {{ object.price }}</li>
-                    <li  class="list-group-item">Duration: {{ object.duration }}</li>
-                        <li  class="list-group-item">Tour Type: {{ object.tourtype }}</li>
-                    <li  class="list-group-item">Trek Difficulty: {{ object.trekdifficulty }}</li>
-                   <li  class="list-group-item"> Operator: {{ object.operator }}</li>
-                    <li  class="list-group-item">Location: {{ object.location }}</li>
-                   <li  class="list-group-item"> Primary Activity: {{ object.primary_activity }}</li>
-                   <li  class="list-group-item"> Secondary Activity: {{ object.secondary_activty }}</li>
-                  <li  class="list-group-item"> Ratings: {{ object.rating }}</li>
-                </ul>
-            </div>
+    <div class="container">
+    <div class="row" style="margin-top: 0%; margin-bottom: 0%; background-color: #f0f0f0">
 
-                <div class="col">
-                    <h1>Rating</h1>
-                    <form action="." method="get">
-                        <fieldset class="rating">
-                            <input type="radio" id="star5" name="rating" value="5"/><label class="full" for="star5"
-                                                                                           title="Awesome - 5 stars"></label>
-                            <input type="radio" id="star4half" name="rating" value="4.5"/><label class="half"
-                                                                                                 for="star4half"
-                                                                                                 title="Pretty good - 4.5 stars"></label>
-                            <input type="radio" id="star4" name="rating" value="4"/><label class="full" for="star4"
-                                                                                           title="Pretty good - 4 stars"></label>
-                            <input type="radio" id="star3half" name="rating" value="3.5"/><label class="half"
-                                                                                                 for="star3half"
-                                                                                                 title="Meh - 3.5 stars"></label>
-                            <input type="radio" id="star3" name="rating" value="3"/><label class="full" for="star3"
-                                                                                           title="Meh - 3 stars"></label>
-                            <input type="radio" id="star2half" name="rating" value="2.5"/><label class="half"
-                                                                                                 for="star2half"
-                                                                                                 title="Kinda bad - 2.5 stars"></label>
-                            <input type="radio" id="star2" name="rating" value="2"/><label class="full" for="star2"
-                                                                                           title="Kinda bad - 2 stars"></label>
-                            <input type="radio" id="star1half" name="rating" value="1.5"/><label class="half"
-                                                                                                 for="star1half"
-                                                                                                 title="Meh - 1.5 stars"></label>
-                            <input type="radio" id="star1" name="rating" value="1"/><label class="full" for="star1"
-                                                                                           title="Sucks big time - 1 star"></label>
-                            <input type="radio" id="starhalf" name="rating" value="0.5"/><label class="half"
-                                                                                                for="starhalf"
-                                                                                                title="Sucks big time - 0.5 stars"></label>
 
-                        </fieldset>
-                        <br>
-                        <div class="review" style="margin-top:8%">
-                        <label for="review">Reviews</label>
-                        <input type="text" name="review" id="review" style=" height:200px;font-size:14pt;"><br>
-                        <button type="submit" class="btn btn-success" style="margin-top:4%">Submit</button>
+        <div class="col-lg-3 sidebar" style="margin-top: 2.75%;">
+            <div class="sidebar-box ftco-animate fadeInUp ftco-animated">
+                <div class="search-tours bg-light p-4">
+
+                    <h3>Find your Package</h3>
+                    <form class="form-inline" action="{% url 'app:customsearch' %}" method="get">
+                        <div class="fields">
+                            <div class="row flex-column">
+                                <div class="textfield-search col-sm-12 group mb-3"><input type="text"
+                                                                                          name="name_search"
+                                                                                          class="form-control"
+                                                                                          placeholder="Search by Name">
+                                </div>
+                                <div class="check-in col-sm-12 group mb-3"><input type="text" id="checkin_date"
+                                                                                  class="form-control"
+                                                                                  name="location_search"
+                                                                                  placeholder="Search Location">
+                                </div>
+                                <div class="check-out col-sm-12 group mb-3"><input type="text" id="checkout_date"
+                                                                                   class="form-control"
+                                                                                   name="duration_search"
+                                                                                   placeholder="Search by Duration">
+                                </div>
+                                <div class="check-out col-sm-12 group mb-3"><input type="text"
+                                                                                   id="minimum price"
+                                                                                   class="form-control"
+                                                                                   name="minprice_search"
+                                                                                   placeholder="Minimum Price">
+                                </div>
+                                <div class="check-out col-sm-12 group mb-3"><input type="text"
+                                                                                   id="maximum price"
+                                                                                   class="form-control"
+                                                                                   name="maxprice_search"
+                                                                                   placeholder="Maximum Price">
+                                </div>
+
+                                <div class="col-sm-12 group mb-3">
+                                    <input type="submit" class="search-submit btn btn-primary"
+                                           value="Find">
+                                </div>
+                            </div>
                         </div>
                     </form>
-
-
                 </div>
             </div>
+            <div class="sidebar-box ftco-animate fadeInUp ftco-animated">
+                <div class="categories">
+                    <h3>Categories</h3>
+                    <li><a href="#">Tours <span>(12)</span></a></li>
+                    <li><a href="#">Hotels <span>(22)</span></a></li>
+                    <li><a href="#">Cruises <span>(37)</span></a></li>
+                    <li><a href="#">Restaurant <span>(42)</span></a></li>
+                    <li><a href="#">Destination <span>(14)</span></a></li>
+                </div>
+            </div>
+
+
+            {% if request.user.is_authenticated %}
+
+            <h1 style="margin-top: 5%">Rating</h1>
+    <form action="." method="get">
+        <fieldset class="rating">
+            <input type="radio" id="star5" name="rating" value="5"/><label class="full" for="star5"
+                                                                           title="Awesome - 5 stars"></label>
+            <input type="radio" id="star4half" name="rating" value="4.5"/><label class="half"
+                                                                                 for="star4half"
+                                                                                 title="Pretty good - 4.5 stars"></label>
+            <input type="radio" id="star4" name="rating" value="4"/><label class="full" for="star4"
+                                                                           title="Pretty good - 4 stars"></label>
+            <input type="radio" id="star3half" name="rating" value="3.5"/><label class="half"
+                                                                                 for="star3half"
+                                                                                 title="Meh - 3.5 stars"></label>
+            <input type="radio" id="star3" name="rating" value="3"/><label class="full" for="star3"
+                                                                           title="Meh - 3 stars"></label>
+            <input type="radio" id="star2half" name="rating" value="2.5"/><label class="half"
+                                                                                 for="star2half"
+                                                                                 title="Kinda bad - 2.5 stars"></label>
+            <input type="radio" id="star2" name="rating" value="2"/><label class="full" for="star2"
+                                                                           title="Kinda bad - 2 stars"></label>
+            <input type="radio" id="star1half" name="rating" value="1.5"/><label class="half"
+                                                                                 for="star1half"
+                                                                                 title="Meh - 1.5 stars"></label>
+            <input type="radio" id="star1" name="rating" value="1"/><label class="full" for="star1"
+                                                                           title="Sucks big time - 1 star"></label>
+            <input type="radio" id="starhalf" name="rating" value="0.5"/><label class="half"
+                                                                                for="starhalf"
+                                                                                title="Sucks big time - 0.5 stars"></label>
+
+        </fieldset>
+        <br><br><br>
+        <div class="review text-left" style="">
+            <label class="" for="review">Reviews</label>
+            <textarea class="form-control" name="" id="" cols="30" rows="3"></textarea>
+            <button type="submit" class="btn btn-success" style="margin-top:2%">Submit</button>
+        </div>
+    </form>
+            {% endif %}
+
+
+
+
+        </div>
+
+        <div class="col-lg-9" style="background-color: #F8F9FA">
+            <div class="card">
+                <img src="{{ object.image }}" alt="">
+
+
+                <div class="jumbotron" style="margin-bottom:0px; background-color: #F8F9FA">
+                    <p style="text-align: justify;">{{ object.description|truncatechars:500 }}</p>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <ul class="list-group">
+                            <li class="list-group-item">Name of Package: {{ object.name }}</li>
+                            <li class="list-group-item">Price: {{ object.price }}</li>
+                            <li class="list-group-item">Duration: {{ object.duration }}</li>
+                            <li class="list-group-item">Tour Type: {{ object.tourtype }}</li>
+                            <li class="list-group-item">Trek Difficulty: {{ object.trekdifficulty }}</li>
+
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <ul class="list-group">
+                            <li class="list-group-item"> Operator: {{ object.operator }}</li>
+                            <li class="list-group-item">Location: {{ object.location }}</li>
+                            <li class="list-group-item"> Primary Activity: {{ object.primary_activity }}</li>
+                            <li class="list-group-item"> Secondary Activity: {{ object.secondary_activty }}</li>
+                            <li class="list-group-item"> Ratings: {{ object.rating }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                </div>
+
+            </div>
+
+
         </div>
     </div>
+    </div>
+
+
+
+
 
 
     <style>
@@ -91,13 +173,6 @@
         html, body {
             margin: 0;
             height: 100%;
-        }
-
-        img {
-            display: block;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
         }
 
         /****** Style Star Rating Widget *****/
@@ -147,3 +222,4 @@
         }
     </style>
 {% endblock %}
+
